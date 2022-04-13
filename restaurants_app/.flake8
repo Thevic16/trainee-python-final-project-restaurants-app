@@ -1,0 +1,12 @@
+[flake8]
+exclude =
+	*/migrations/
+	*/settings.py
+	manage.py
+	.git
+	.gitignore
+	Pipfile
+	Pipfile.lock
+	README.md
+	__pycache__
+
