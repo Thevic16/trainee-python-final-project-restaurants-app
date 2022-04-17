@@ -13,6 +13,9 @@ djangorestframework-simplejwt = "*"
 gunicorn = "*"
 django-environ = "*"
 whitenoise = "*"
+django-storages = "*"
+pillow = "*"
+boto3 = "*"
 
 [dev-packages]
 flake8 = "*"
