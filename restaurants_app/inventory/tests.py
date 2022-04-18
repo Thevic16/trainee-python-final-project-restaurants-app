@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 
-
 # Create your tests here.
-from inventory.validations import validator_no_negative_no_zero
+from inventory.validations import (validator_no_negative_no_zero,
+                                   validator_ingredient_exist)
 
 
 class DishAppTestCase(TestCase):
@@ -23,4 +23,6 @@ class DishAppTestCase(TestCase):
         with self.assertRaises(ValidationError):
             validator_no_negative_no_zero(self.negative_number)
 
-
+    def test_validator_ingredient_exist(self):
+        with self.assertRaises(ValidationError):
+            validator_ingredient_exist(self.positive_number, 'model', 'field')
