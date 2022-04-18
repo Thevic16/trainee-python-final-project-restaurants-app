@@ -20,4 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Dish Api
     path('api/', include('dish.api.urls')),
+
+    # Inventory Api
+    path('api/', include('inventory.api.urls')),
 ]

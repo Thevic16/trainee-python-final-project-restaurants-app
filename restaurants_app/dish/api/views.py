@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics, status
+from rest_framework import status
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
