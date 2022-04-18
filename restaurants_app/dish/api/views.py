@@ -1,60 +1,94 @@
 from rest_framework import mixins, generics, status
+from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from dish.api.serializers import (MenuCategorySerializer, DishSerializer)
-from dish.models import MenuCategory, Dish
+from dish.api.serializers import (MenuCategorySerializer, DishSerializer,
+                                  PromotionSerializer)
+from dish.models import MenuCategory, Dish, Promotion
+
+from restaurant.models import Restaurant, Branch
+from utilities.logger import Logger
+
 
 # MenuCategory views
-from restaurant.models import Restaurant
-from utilities.logger import Logger
-from utilities.mixins import ReadWriteSerializerMixin
-
-
-class MenuCategoryAPIDetailView(mixins.UpdateModelMixin,
-                                mixins.DestroyModelMixin,
-                                generics.RetrieveAPIView):
+class MenuCategoryAPIView(GenericViewSet):
     """
-    MenuCategory view to retrieve, update and destroy,
-    Only restaurant administrator role is allowed to perform these actions.
-    """
-    permission_classes = []
-    serializer_class = MenuCategorySerializer
-    queryset = MenuCategory.objects.all()
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-
-class MenuCategoryAPIView(mixins.CreateModelMixin, generics.ListAPIView):
-    """
-    MenuCategory view to create and list,
-    Only restaurant administrator role is allowed to perform these actions.
+    MenuCategory view set to create and list,only restaurant administrator role is
+     allowed to perform these actions.
     """
     permission_classes = []
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
-    ordering_fields = ('id', 'name')
-    search_fields = ('id', 'name')
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-    def get(self, request, *args, **kwargs):
-        return super(MenuCategoryAPIView, self).get(request, *args, **kwargs)
+        # After create person model and implement jwt this has to be modified.
+        object = MenuCategory(name=serializer.data['name'],
+                              restaurant=Restaurant.objects.all().first())
+
+        object.save()
+
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+
+class MenuCategoryAPIDetailView(GenericViewSet):
+    """
+    MenuCategory view set to retrieve, update, partial_update and destroy, only
+     restaurant administrator role is allowed to perform these actions.
+    """
+    permission_classes = []
+    queryset = MenuCategory.objects.all()
+    serializer_class = MenuCategorySerializer
+
+    def retrieve(self, request, pk):
+        object = self.get_object()
+        serializer = self.get_serializer(object)
+        return Response(serializer.data)
+
+    def update(self, request, pk):
+        object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        object.name = serializer.data['name']
+        object.save()
+
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
+        return Response(serializer.data)
+
+    def partial_update(self, request, pk):
+        object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        object.name = serializer.data['name']
+        object.save()
+
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk):
+        object = self.get_object()
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Dish views
-class DishAPIDetailView(GenericViewSet):
+class DishAPIView(GenericViewSet):
     """
-    Dish view set to create, list, retrieve and destroy
-    Only restaurant administrator role is allowed to perform these actions.
+    Dish view set to create and list,only restaurant administrator role is
+     allowed to perform these actions.
     """
     permission_classes = []
     queryset = Dish.objects.all()
@@ -64,6 +98,7 @@ class DishAPIDetailView(GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        # After create person model and implement jwt this has to be modified.
         object = Dish(name=serializer.data['name'],
                       price=serializer.data['price'],
                       description=serializer.data['description'],
@@ -74,7 +109,8 @@ class DishAPIDetailView(GenericViewSet):
 
         object.save()
 
-        # serializer.save(serializer)
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -82,10 +118,10 @@ class DishAPIDetailView(GenericViewSet):
         return Response(serializer.data)
 
 
-class DishAPIAPIView(GenericViewSet):
+class DishAPIDetailView(GenericViewSet):
     """
-    Dish view set to create, list, retrieve and destroy
-    Only restaurant administrator role is allowed to perform these actions.
+    Dish view set to retrieve, update, partial_update and destroy, only
+     restaurant administrator role is allowed to perform these actions.
     """
     permission_classes = []
     queryset = Dish.objects.all()
@@ -110,6 +146,8 @@ class DishAPIAPIView(GenericViewSet):
 
         object.save()
 
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
@@ -126,6 +164,130 @@ class DishAPIAPIView(GenericViewSet):
 
         object.save()
 
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk):
+        object = self.get_object()
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Promotion views
+class PromotionAPIDetailView(GenericViewSet):
+    """
+    Promotion view set to create and list,only restaurant administrator role is
+     allowed to perform these actions.
+    """
+    permission_classes = []
+    queryset = Promotion.objects.all()
+    serializer_class = PromotionSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # After create person model and implement jwt this has to be
+        # modified.
+        object = Promotion(name=serializer.data['name'],
+                           price=serializer.data['price'],
+                           since_date=serializer.data['since_date'],
+                           up_to=serializer.data['up_to'])
+
+        # Here It is necessary to save before using the many-to-many
+        # relationships
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
+
+        # Assigning many-to-many relationships
+        for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
+            object.dishes.add(dish)
+
+        for branch in Branch.objects.filter(
+                pk__in=serializer.data['branches']):
+            object.branches.add(branch)
+
+        object.save()
+
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+
+class PromotionAPIView(GenericViewSet):
+    """
+    Promotion view set to retrieve, update, partial_update and destroy,only
+     restaurant administrator role is allowed to perform these actions.
+    """
+    permission_classes = []
+    queryset = Promotion.objects.all()
+    serializer_class = PromotionSerializer
+
+    def retrieve(self, request, pk):
+        object = self.get_object()
+        serializer = self.get_serializer(object)
+        return Response(serializer.data)
+
+    def update(self, request, pk):
+        object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        object.name = serializer.data['name']
+        object.price = serializer.data['price']
+        object.since_date = serializer.data['since_date']
+        object.up_to = serializer.data['up_to']
+
+        for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
+            object.dishes.add(dish)
+
+        for branch in Branch.objects.filter(
+                pk__in=serializer.data['branches']):
+            object.branches.add(branch)
+
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
+
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
+        return Response(serializer.data)
+
+    def partial_update(self, request, pk):
+        object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        object.name = serializer.data['name']
+        object.price = serializer.data['price']
+        object.since_date = serializer.data['since_date']
+        object.up_to = serializer.data['up_to']
+
+        for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
+            object.dishes.add(dish)
+
+        for branch in Branch.objects.filter(
+                pk__in=serializer.data['branches']):
+            object.branches.add(branch)
+
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
+
+        # Overwriting the serializer to add id field.
+        serializer = self.get_serializer(object)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
