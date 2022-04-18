@@ -21,11 +21,11 @@ urlpatterns = [
 
     # Paths Dish
     path('dishes/',
-         DishAPIDetailView.as_view({'get': 'list', 'post': 'create'})),
-    path('dishes/<int:pk>/', DishAPIView.as_view({'get': 'retrieve',
-                                                     'put': 'update',
-                                                     'patch': 'update',
-                                                     'delete': 'destroy'}),
+         DishAPIView.as_view({'get': 'list', 'post': 'create'})),
+    path('dishes/<int:pk>/', DishAPIDetailView.as_view({'get': 'retrieve',
+                                                        'put': 'update',
+                                                        'patch': 'update',
+                                                        'delete': 'destroy'}),
          name='dish-detail'),
 
     # Paths Promotion
@@ -33,9 +33,9 @@ urlpatterns = [
          PromotionAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('promotions/<int:pk>/',
          PromotionAPIDetailView.as_view({'get': 'retrieve',
-                                      'put': 'update',
-                                      'patch': 'update',
-                                      'delete': 'destroy'}),
+                                         'put': 'update',
+                                         'patch': 'update',
+                                         'delete': 'destroy'}),
          name='promotion-detail'),
 
 ]

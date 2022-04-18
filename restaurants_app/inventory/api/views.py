@@ -6,6 +6,8 @@ from dish.models import Dish
 from inventory.api.serializers import UnitSerializer, IngredientSerializer, \
     RecipeSerializer, InventorySerializer
 from inventory.models import Unit, Ingredient, Recipe, Inventory
+from django.core.exceptions import ValidationError
+from utilities.logger import Logger
 
 
 # Unit views
@@ -180,7 +182,11 @@ class RecipeAPIView(GenericViewSet):
                 id=serializer.data['dish'])
         )
 
-        object.save()
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
         # Overwriting the serializer to add id field.
         serializer = self.get_serializer(object)
@@ -215,7 +221,12 @@ class RecipeAPIDetailView(GenericViewSet):
         object.quantity = serializer.data['quantity']
         object.dish = Dish.objects.get(
             id=serializer.data['dish'])
-        object.save()
+
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
         # Overwriting the serializer to add id field.
         serializer = self.get_serializer(object)
@@ -231,7 +242,12 @@ class RecipeAPIDetailView(GenericViewSet):
         object.quantity = serializer.data['quantity']
         object.dish = Dish.objects.get(
             id=serializer.data['dish'])
-        object.save()
+
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
         # Overwriting the serializer to add id field.
         serializer = self.get_serializer(object)
@@ -246,7 +262,7 @@ class RecipeAPIDetailView(GenericViewSet):
 # Inventory views
 class InventoryAPIView(GenericViewSet):
     """
-    Inventory view set to create and list,only restaurant administrator role
+    Inventory view set to create and list,only branch manager role
      is allowed to perform these actions.
     """
     permission_classes = []
@@ -264,7 +280,11 @@ class InventoryAPIView(GenericViewSet):
                 id=serializer.data['branch'])
         )
 
-        object.save()
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
         # Overwriting the serializer to add id field.
         serializer = self.get_serializer(object)
@@ -277,8 +297,8 @@ class InventoryAPIView(GenericViewSet):
 
 class InventoryAPIDetailView(GenericViewSet):
     """
-    Recipe view set to retrieve, update, partial_update and destroy, only
-     restaurant administrator role is allowed to perform these actions.
+    Inventory view set to retrieve, update, partial_update and destroy, only
+     branch manager role is allowed to perform these actions.
     """
     permission_classes = []
     queryset = Inventory.objects.all()
@@ -299,7 +319,12 @@ class InventoryAPIDetailView(GenericViewSet):
         object.availability = serializer.data['availability']
         object.branch = Branch.objects.get(
             id=serializer.data['branch'])
-        object.save()
+
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
         # Overwriting the serializer to add id field.
         serializer = self.get_serializer(object)
@@ -315,7 +340,12 @@ class InventoryAPIDetailView(GenericViewSet):
         object.availability = serializer.data['availability']
         object.branch = Branch.objects.get(
             id=serializer.data['branch'])
-        object.save()
+
+        try:
+            object.save()
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
         # Overwriting the serializer to add id field.
         serializer = self.get_serializer(object)

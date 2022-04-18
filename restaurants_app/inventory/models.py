@@ -1,8 +1,10 @@
 from django.db import models
+from django.db.models.signals import pre_save
 
 from dish.models import Dish
 from dish.validations import validator_no_negative
-from inventory.validations import validator_no_negative_no_zero
+from inventory.validations import (validator_no_negative_no_zero,
+    validator_ingredient_exist)
 from restaurant.models import Branch
 
 
@@ -33,9 +35,29 @@ class Recipe(models.Model):
         return f'{self.dish.name}'
 
 
+def recipe_model_pre_save_receiver(sender, instance, *args, **kwargs):
+    validator_ingredient_exist(Recipe.objects.filter(
+        ingredient__id=instance.ingredient.id,
+        dish__id=instance.dish.id).count(),
+        'ingredient', 'recipe')
+
+
+pre_save.connect(recipe_model_pre_save_receiver, sender=Recipe)
+
+
 class Inventory(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     availability = models.DecimalField(max_digits=25, decimal_places=5,
                                        validators=[
                                            validator_no_negative])
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+
+
+def inventory_model_pre_save_receiver(sender, instance, *args, **kwargs):
+    validator_ingredient_exist(Inventory.objects.filter(
+        ingredient__id=instance.ingredient.id,
+        branch__id=instance.branch.id).count(),
+        'ingredient', 'branch')
+
+
+pre_save.connect(inventory_model_pre_save_receiver, sender=Inventory)
