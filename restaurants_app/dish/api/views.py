@@ -91,7 +91,7 @@ class DishAPIView(GenericViewSet):
      allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Dish.objects.all()
+    queryset = Dish.objects.all().filter(is_deleted=False)
     serializer_class = DishSerializer
 
     def create(self, request, *args, **kwargs):
@@ -124,7 +124,7 @@ class DishAPIDetailView(GenericViewSet):
      restaurant administrator role is allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Dish.objects.all()
+    queryset = Dish.objects.all().filter(is_deleted=False)
     serializer_class = DishSerializer
 
     def retrieve(self, request, pk):
@@ -170,7 +170,9 @@ class DishAPIDetailView(GenericViewSet):
 
     def destroy(self, request, pk):
         object = self.get_object()
-        object.delete()
+        object.is_deleted = True
+        object.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -181,7 +183,7 @@ class PromotionAPIView(GenericViewSet):
      allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Promotion.objects.all()
+    queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
 
     def create(self, request, *args, **kwargs):
@@ -228,7 +230,7 @@ class PromotionAPIDetailView(GenericViewSet):
      restaurant administrator role is allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Promotion.objects.all()
+    queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
 
     def retrieve(self, request, pk):
@@ -292,5 +294,7 @@ class PromotionAPIDetailView(GenericViewSet):
 
     def destroy(self, request, pk):
         object = self.get_object()
-        object.delete()
+        object.is_deleted = True
+        object.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
