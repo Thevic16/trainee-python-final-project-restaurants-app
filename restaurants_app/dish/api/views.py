@@ -175,7 +175,7 @@ class DishAPIDetailView(GenericViewSet):
 
 
 # Promotion views
-class PromotionAPIDetailView(GenericViewSet):
+class PromotionAPIView(GenericViewSet):
     """
     Promotion view set to create and list,only restaurant administrator role is
      allowed to perform these actions.
@@ -222,7 +222,7 @@ class PromotionAPIDetailView(GenericViewSet):
         return Response(serializer.data)
 
 
-class PromotionAPIView(GenericViewSet):
+class PromotionAPIDetailView(GenericViewSet):
     """
     Promotion view set to retrieve, update, partial_update and destroy,only
      restaurant administrator role is allowed to perform these actions.
