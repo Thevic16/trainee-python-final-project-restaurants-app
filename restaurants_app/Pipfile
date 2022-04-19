@@ -16,6 +16,7 @@ whitenoise = "*"
 django-storages = "*"
 pillow = "*"
 boto3 = "*"
+django-rest-swagger = "*"
 
 [dev-packages]
 flake8 = "*"
