@@ -9,7 +9,6 @@ from inventory.models import Unit, Ingredient, Recipe, Inventory
 from django.core.exceptions import ValidationError
 from utilities.logger import Logger
 
-
 # Unit views
 from restaurant.models import Branch
 
@@ -27,13 +26,13 @@ class UnitAPIView(GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object = Unit(name=serializer.data['name'],
-                      abbreviation=serializer.data['abbreviation'])
+        unit = Unit(name=serializer.data['name'],
+                    abbreviation=serializer.data['abbreviation'])
 
-        object.save()
+        unit.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(unit)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -51,39 +50,39 @@ class UnitAPIDetailView(GenericViewSet):
     serializer_class = UnitSerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        unit = self.get_object()
+        serializer = self.get_serializer(unit)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        unit = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.abbreviation = serializer.data['abbreviation']
-        object.save()
+        unit.name = serializer.data['name']
+        unit.abbreviation = serializer.data['abbreviation']
+        unit.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(unit)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        unit = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.abbreviation = serializer.data['abbreviation']
-        object.save()
+        unit.name = serializer.data['name']
+        unit.abbreviation = serializer.data['abbreviation']
+        unit.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(unit)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        unit = self.get_object()
+        unit.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -101,13 +100,14 @@ class IngredientAPIView(GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object = Ingredient(name=serializer.data['name'],
-                            unit=Unit.objects.get(id=serializer.data['unit']))
+        ingredient = Ingredient(name=serializer.data['name'],
+                                unit=Unit.objects.get(
+                                    id=serializer.data['unit']))
 
-        object.save()
+        ingredient.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(ingredient)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -125,39 +125,39 @@ class IngredientAPIDetailView(GenericViewSet):
     serializer_class = IngredientSerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        ingredient = self.get_object()
+        serializer = self.get_serializer(ingredient)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        ingredient = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.unit = Unit.objects.get(id=serializer.data['unit'])
-        object.save()
+        ingredient.name = serializer.data['name']
+        ingredient.unit = Unit.objects.get(id=serializer.data['unit'])
+        ingredient.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(ingredient)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        ingredient = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.unit = Unit.objects.get(id=serializer.data['unit'])
-        object.save()
+        ingredient.name = serializer.data['name']
+        ingredient.unit = Unit.objects.get(id=serializer.data['unit'])
+        ingredient.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(ingredient)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        ingredient = self.get_object()
+        ingredient.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -175,7 +175,7 @@ class RecipeAPIView(GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object = Recipe(ingredient=Ingredient.objects.get(
+        recipe = Recipe(ingredient=Ingredient.objects.get(
             id=serializer.data['ingredient']),
             quantity=serializer.data['quantity'],
             dish=Dish.objects.get(
@@ -183,13 +183,13 @@ class RecipeAPIView(GenericViewSet):
         )
 
         try:
-            object.save()
+            recipe.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(recipe)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -207,55 +207,55 @@ class RecipeAPIDetailView(GenericViewSet):
     serializer_class = RecipeSerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        recipe = self.get_object()
+        serializer = self.get_serializer(recipe)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        recipe = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.ingredient = Ingredient.objects.get(
+        recipe.ingredient = Ingredient.objects.get(
             id=serializer.data['ingredient'])
-        object.quantity = serializer.data['quantity']
-        object.dish = Dish.objects.get(
+        recipe.quantity = serializer.data['quantity']
+        recipe.dish = Dish.objects.get(
             id=serializer.data['dish'])
 
         try:
-            object.save()
+            recipe.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(recipe)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        recipe = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.ingredient = Ingredient.objects.get(
+        recipe.ingredient = Ingredient.objects.get(
             id=serializer.data['ingredient'])
-        object.quantity = serializer.data['quantity']
-        object.dish = Dish.objects.get(
+        recipe.quantity = serializer.data['quantity']
+        recipe.dish = Dish.objects.get(
             id=serializer.data['dish'])
 
         try:
-            object.save()
+            recipe.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(recipe)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        recipe = self.get_object()
+        recipe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -273,7 +273,7 @@ class InventoryAPIView(GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object = Inventory(ingredient=Ingredient.objects.get(
+        inventory = Inventory(ingredient=Ingredient.objects.get(
             id=serializer.data['ingredient']),
             availability=serializer.data['availability'],
             branch=Branch.objects.get(
@@ -281,13 +281,13 @@ class InventoryAPIView(GenericViewSet):
         )
 
         try:
-            object.save()
+            inventory.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(inventory)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -305,53 +305,53 @@ class InventoryAPIDetailView(GenericViewSet):
     serializer_class = InventorySerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        inventory = self.get_object()
+        serializer = self.get_serializer(inventory)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        inventory = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.ingredient = Ingredient.objects.get(
+        inventory.ingredient = Ingredient.objects.get(
             id=serializer.data['ingredient'])
-        object.availability = serializer.data['availability']
-        object.branch = Branch.objects.get(
+        inventory.availability = serializer.data['availability']
+        inventory.branch = Branch.objects.get(
             id=serializer.data['branch'])
 
         try:
-            object.save()
+            inventory.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(inventory)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        inventory = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.ingredient = Ingredient.objects.get(
+        inventory.ingredient = Ingredient.objects.get(
             id=serializer.data['ingredient'])
-        object.availability = serializer.data['availability']
-        object.branch = Branch.objects.get(
+        inventory.availability = serializer.data['availability']
+        inventory.branch = Branch.objects.get(
             id=serializer.data['branch'])
 
         try:
-            object.save()
+            inventory.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(inventory)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        inventory = self.get_object()
+        inventory.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
