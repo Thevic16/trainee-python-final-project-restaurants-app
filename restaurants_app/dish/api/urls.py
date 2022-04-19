@@ -4,7 +4,8 @@ from dish.api.views import (MenuCategoryAPIView,
                             MenuCategoryAPIDetailView,
                             DishAPIDetailView,
                             PromotionAPIDetailView,
-                            DishAPIView, PromotionAPIView)
+                            DishAPIView, PromotionAPIView, DishPhotoAPIView,
+                            DishPhotoAPIDetailView)
 
 app_name = 'dish'
 
@@ -28,6 +29,12 @@ urlpatterns = [
                                                         'delete': 'destroy'}),
          name='dish-detail'),
 
+    # Paths DishPhoto
+    path('dishes_photos/',
+         DishPhotoAPIView.as_view()),
+    path('dishes_photos/<int:pk>/', DishPhotoAPIDetailView.as_view(),
+         name='dish-detail'),
+
     # Paths Promotion
     path('promotions/',
          PromotionAPIView.as_view({'get': 'list', 'post': 'create'})),
@@ -36,6 +43,5 @@ urlpatterns = [
                                          'put': 'update',
                                          'patch': 'update',
                                          'delete': 'destroy'}),
-         name='promotion-detail'),
-
+         name='dish-photo-detail'),
 ]

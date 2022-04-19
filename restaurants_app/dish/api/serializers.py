@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from dish.models import MenuCategory, Dish, Promotion
+from dish.models import MenuCategory, Dish, Promotion, DishPhoto
 
 
 # MenuCategory Serializer
@@ -22,8 +22,18 @@ class DishSerializer(serializers.ModelSerializer):
             'name',
             'price',
             'description',
-            'photo',
             'menu_category',
+        ]
+
+
+# DishPhoto Serializer
+class DishPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DishPhoto
+        fields = [
+            'id',
+            'dish',
+            'photo',
         ]
 
 

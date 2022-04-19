@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from dish.api.serializers import (MenuCategorySerializer, DishSerializer,
-                                  PromotionSerializer)
-from dish.models import MenuCategory, Dish, Promotion
+                                  PromotionSerializer, DishPhotoSerializer)
+from dish.models import MenuCategory, Dish, Promotion, DishPhoto
 
 from restaurant.models import Restaurant, Branch
 from utilities.logger import Logger
+from rest_framework import generics, mixins
 
 
 # MenuCategory views
@@ -102,7 +103,6 @@ class DishAPIView(GenericViewSet):
         dish = Dish(name=serializer.data['name'],
                     price=serializer.data['price'],
                     description=serializer.data['description'],
-                    photo=serializer.data['photo'],
                     restaurant=Restaurant.objects.all().first(),
                     menu_category=MenuCategory.objects.get(
                         id=serializer.data['menu_category']))
@@ -110,7 +110,7 @@ class DishAPIView(GenericViewSet):
         dish.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(dish)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -140,7 +140,6 @@ class DishAPIDetailView(GenericViewSet):
         dish.name = serializer.data['name']
         dish.price = serializer.data['price']
         dish.description = serializer.data['description']
-        dish.photo = serializer.data['photo']
         dish.menu_category = MenuCategory.objects.get(
             id=serializer.data['menu_category'])
 
@@ -158,7 +157,6 @@ class DishAPIDetailView(GenericViewSet):
         dish.name = serializer.data['name']
         dish.price = serializer.data['price']
         dish.description = serializer.data['description']
-        dish.photo = serializer.data['photo']
         dish.menu_category = MenuCategory.objects.get(
             id=serializer.data['menu_category'])
 
@@ -174,6 +172,29 @@ class DishAPIDetailView(GenericViewSet):
         dish.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# DishPhoto
+class DishPhotoAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+    permission_classes = []
+    queryset = DishPhoto.objects.all()
+    serializer_class = DishPhotoSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return super(DishPhotoAPIView, self).get(request, *args, **kwargs)
+
+
+class DishPhotoAPIDetailView(mixins.DestroyModelMixin,
+                             generics.RetrieveAPIView):
+    permission_classes = []
+    serializer_class = DishPhotoSerializer
+    queryset = DishPhoto.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 # Promotion views
