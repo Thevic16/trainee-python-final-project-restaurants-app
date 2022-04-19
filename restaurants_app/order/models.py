@@ -14,7 +14,6 @@ class Status(models.Model):
 
 
 class Order(models.Model):
-    employee = models.ForeignKey(Person, on_delete=models.CASCADE)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     delivery_type = models.ForeignKey(Status, on_delete=models.CASCADE)
