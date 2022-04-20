@@ -15,14 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.schemas import get_schema_view
 
+from rest_framework_swagger.views import get_swagger_view
+
+
+schema_view = get_swagger_view(title='Restaurant API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Dish Api
+    path('api/', include('dish.api.urls')),
+
+    # Restaurant Api
     path('api/', include('restaurant.urls')),
-    path('openapi', get_schema_view(
-        title="Restaurant APP",
-        version="1.0.0"
-    ), name='openapi-schema')
+
+    # Inventory Api
+    path('api/', include('inventory.api.urls')),
+
+    # Swagger Documentation
+    path('docs/', schema_view),
 ]

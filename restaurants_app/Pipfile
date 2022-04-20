@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "==3.2"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
@@ -12,8 +12,11 @@ psycopg2-binary = "*"
 djangorestframework-simplejwt = "*"
 gunicorn = "*"
 django-environ = "*"
-pyyaml = "*"
-uritemplate = "*"
+whitenoise = "*"
+django-storages = "*"
+pillow = "*"
+boto3 = "*"
+django-rest-swagger = "*"
 
 [dev-packages]
 flake8 = "*"

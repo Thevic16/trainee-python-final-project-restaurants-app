@@ -29,6 +29,16 @@ class Restaurant(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def __str__(self):
+        return self.name
+
+
+class DeliveryType(models.Model):
+    type = models.CharField(max_length=120, unique=True)
+
+    def __str__(self):
+        return self.type
+
 
 class PayDay(models.Model):
     day = models.PositiveIntegerField()

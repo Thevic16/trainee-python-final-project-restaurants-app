@@ -2,5 +2,6 @@ __pycache__
 .vscode/*
 .env
 .idea
-
+*/migrations/*
+api_design.json
 
