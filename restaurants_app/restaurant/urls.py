@@ -11,4 +11,6 @@ urlpatterns = [
     path('restaurants/', views.RestaurantList.as_view()),
     path('pay-days/', views.PayDayList.as_view()),
     path('pay-days/<int:pk>', views.PayDayDetail.as_view()),
+    path('pay-monthly/',
+         views.PayMonthly.as_view({'post': 'pay_monthly', 'get': 'payments'})),
 ]

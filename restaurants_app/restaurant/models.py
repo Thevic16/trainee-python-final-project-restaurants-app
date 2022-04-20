@@ -24,12 +24,10 @@ class Restaurant(models.Model):
     pay_type = models.ForeignKey(PayType, on_delete=models.PROTECT, null=True)
     max_admins = models.PositiveIntegerField(default=5)
     max_branches = models.PositiveIntegerField(default=5)
+    monthly_pay = models.PositiveIntegerField(default=5)
     commission = models.IntegerField(null=True)
 
     def __str__(self) -> str:
-        return self.name
-
-    def __str__(self):
         return self.name
 
 
@@ -56,3 +54,6 @@ class PayDay(models.Model):
 class Pay(models.Model):
     pay = models.FloatField()
     date = models.DateTimeField(auto_now_add=True)
+    month_payed = models.PositiveSmallIntegerField()
+    pay_type = models.ForeignKey(PayType, on_delete=models.PROTECT)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
