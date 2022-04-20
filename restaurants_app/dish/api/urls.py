@@ -26,5 +26,5 @@ urlpatterns = [
          PromotionAPIView.as_view()),
     path('promotions/<int:pk>/',
          PromotionAPIDetailView.as_view(),
-         name='dish-photo-detail'),
+         name='promotions-detail'),
 ]
