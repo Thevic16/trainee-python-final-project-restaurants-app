@@ -15,8 +15,8 @@ from rest_framework import generics, mixins
 # MenuCategory views
 class MenuCategoryAPIView(GenericViewSet):
     """
-    MenuCategory view set to create and list,only restaurant administrator role is
-     allowed to perform these actions.
+    MenuCategory view set to create and list,only restaurant administrator role
+     is allowed to perform these actions.
     """
     permission_classes = []
     queryset = MenuCategory.objects.all()
@@ -28,7 +28,8 @@ class MenuCategoryAPIView(GenericViewSet):
 
         # After create person model and implement jwt this has to be modified.
         menu_category = MenuCategory(name=serializer.data['name'],
-                                     restaurant=Restaurant.objects.all().first())
+                                     restaurant=Restaurant.objects.all().first(
+                                     ))
 
         menu_category.save()
 
@@ -198,51 +199,20 @@ class DishPhotoAPIDetailView(mixins.DestroyModelMixin,
 
 
 # Promotion views
-class PromotionAPIView(GenericViewSet):
-    """
-    Promotion view set to create and list,only restaurant administrator role is
-     allowed to perform these actions.
-    """
+class PromotionAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        # After create person model and implement jwt this has to be
-        # modified.
-        promotion = Promotion(name=serializer.data['name'],
-                              price=serializer.data['price'],
-                              since_date=serializer.data['since_date'],
-                              up_to=serializer.data['up_to'])
-
-        # Here It is necessary to save before using the many-to-many
-        # relationships
+    def post(self, request, *args, **kwargs):
         try:
-            promotion.save()
+            return self.create(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Assigning many-to-many relationships
-        for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
-            promotion.dishes.add(dish)
-
-        for branch in Branch.objects.filter(
-                pk__in=serializer.data['branches']):
-            promotion.branches.add(branch)
-
-        promotion.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(promotion)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return super(PromotionAPIView, self).get(request, *args, **kwargs)
 
 
 class PromotionAPIDetailView(GenericViewSet):

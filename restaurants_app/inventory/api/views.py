@@ -1,357 +1,159 @@
-from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
 
-from dish.models import Dish
 from inventory.api.serializers import UnitSerializer, IngredientSerializer, \
     RecipeSerializer, InventorySerializer
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from django.core.exceptions import ValidationError
 from utilities.logger import Logger
-
-# Unit views
-from restaurant.models import Branch
+from rest_framework import generics, mixins
 
 
-class UnitAPIView(GenericViewSet):
-    """
-    Unit view set to create and list,only restaurant administrator role is
-     allowed to perform these actions.
-    """
+# Views Unit
+class UnitAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-        unit = Unit(name=serializer.data['name'],
-                    abbreviation=serializer.data['abbreviation'])
-
-        unit.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(unit)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return super(UnitAPIView, self).get(request, *args, **kwargs)
 
 
-class UnitAPIDetailView(GenericViewSet):
-    """
-    Unit view set to retrieve, update, partial_update and destroy, only
-     restaurant administrator role is allowed to perform these actions.
-    """
+class UnitAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                        generics.RetrieveAPIView):
     permission_classes = []
-    queryset = Unit.objects.all()
     serializer_class = UnitSerializer
+    queryset = Unit.objects.all()
 
-    def retrieve(self, request, pk):
-        unit = self.get_object()
-        serializer = self.get_serializer(unit)
-        return Response(serializer.data)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def update(self, request, pk):
-        unit = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-        unit.name = serializer.data['name']
-        unit.abbreviation = serializer.data['abbreviation']
-        unit.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(unit)
-        return Response(serializer.data)
-
-    def partial_update(self, request, pk):
-        unit = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        unit.name = serializer.data['name']
-        unit.abbreviation = serializer.data['abbreviation']
-        unit.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(unit)
-        return Response(serializer.data)
-
-    def destroy(self, request, pk):
-        unit = self.get_object()
-        unit.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 # Ingredient views
-class IngredientAPIView(GenericViewSet):
-    """
-    Ingredient view set to create and list,only restaurant administrator role
-     is allowed to perform these actions.
-    """
+class IngredientAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-        ingredient = Ingredient(name=serializer.data['name'],
-                                unit=Unit.objects.get(
-                                    id=serializer.data['unit']))
-
-        ingredient.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(ingredient)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return super(IngredientAPIView, self).get(request, *args, **kwargs)
 
 
-class IngredientAPIDetailView(GenericViewSet):
-    """
-    Ingredient view set to retrieve, update, partial_update and destroy, only
-     restaurant administrator role is allowed to perform these actions.
-    """
+class IngredientAPIDetailView(mixins.UpdateModelMixin,
+                              mixins.DestroyModelMixin,
+                              generics.RetrieveAPIView):
     permission_classes = []
-    queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+    queryset = Ingredient.objects.all()
 
-    def retrieve(self, request, pk):
-        ingredient = self.get_object()
-        serializer = self.get_serializer(ingredient)
-        return Response(serializer.data)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def update(self, request, pk):
-        ingredient = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-        ingredient.name = serializer.data['name']
-        ingredient.unit = Unit.objects.get(id=serializer.data['unit'])
-        ingredient.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(ingredient)
-        return Response(serializer.data)
-
-    def partial_update(self, request, pk):
-        ingredient = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        ingredient.name = serializer.data['name']
-        ingredient.unit = Unit.objects.get(id=serializer.data['unit'])
-        ingredient.save()
-
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(ingredient)
-        return Response(serializer.data)
-
-    def destroy(self, request, pk):
-        ingredient = self.get_object()
-        ingredient.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 # Recipe views
-class RecipeAPIView(GenericViewSet):
-    """
-    Recipe view set to create and list,only restaurant administrator role
-     is allowed to perform these actions.
-    """
+class RecipeAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        recipe = Recipe(ingredient=Ingredient.objects.get(
-            id=serializer.data['ingredient']),
-            quantity=serializer.data['quantity'],
-            dish=Dish.objects.get(
-                id=serializer.data['dish'])
-        )
-
+    def post(self, request, *args, **kwargs):
         try:
-            recipe.save()
+            return self.create(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(recipe)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return super(RecipeAPIView, self).get(request, *args, **kwargs)
 
 
-class RecipeAPIDetailView(GenericViewSet):
-    """
-    Recipe view set to retrieve, update, partial_update and destroy, only
-     restaurant administrator role is allowed to perform these actions.
-    """
+class RecipeAPIDetailView(mixins.UpdateModelMixin,
+                          mixins.DestroyModelMixin,
+                          generics.RetrieveAPIView):
     permission_classes = []
-    queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    queryset = Recipe.objects.all()
 
-    def retrieve(self, request, pk):
-        recipe = self.get_object()
-        serializer = self.get_serializer(recipe)
-        return Response(serializer.data)
-
-    def update(self, request, pk):
-        recipe = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        recipe.ingredient = Ingredient.objects.get(
-            id=serializer.data['ingredient'])
-        recipe.quantity = serializer.data['quantity']
-        recipe.dish = Dish.objects.get(
-            id=serializer.data['dish'])
-
+    def put(self, request, *args, **kwargs):
         try:
-            recipe.save()
+            return self.update(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(recipe)
-        return Response(serializer.data)
-
-    def partial_update(self, request, pk):
-        recipe = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        recipe.ingredient = Ingredient.objects.get(
-            id=serializer.data['ingredient'])
-        recipe.quantity = serializer.data['quantity']
-        recipe.dish = Dish.objects.get(
-            id=serializer.data['dish'])
-
+    def patch(self, request, *args, **kwargs):
         try:
-            recipe.save()
+            return self.update(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(recipe)
-        return Response(serializer.data)
-
-    def destroy(self, request, pk):
-        recipe = self.get_object()
-        recipe.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        try:
+            return self.destroy(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
 
 # Inventory views
-class InventoryAPIView(GenericViewSet):
-    """
-    Inventory view set to create and list,only branch manager role
-     is allowed to perform these actions.
-    """
+class InventoryAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        inventory = Inventory(ingredient=Ingredient.objects.get(
-            id=serializer.data['ingredient']),
-            availability=serializer.data['availability'],
-            branch=Branch.objects.get(
-                id=serializer.data['branch'])
-        )
-
+    def post(self, request, *args, **kwargs):
         try:
-            inventory.save()
+            return self.create(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(inventory)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        return super(InventoryAPIView, self).get(request, *args, **kwargs)
 
 
-class InventoryAPIDetailView(GenericViewSet):
-    """
-    Inventory view set to retrieve, update, partial_update and destroy, only
-     branch manager role is allowed to perform these actions.
-    """
+class InventoryAPIDetailView(mixins.UpdateModelMixin,
+                             mixins.DestroyModelMixin,
+                             generics.RetrieveAPIView):
     permission_classes = []
-    queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
+    queryset = Inventory.objects.all()
 
-    def retrieve(self, request, pk):
-        inventory = self.get_object()
-        serializer = self.get_serializer(inventory)
-        return Response(serializer.data)
-
-    def update(self, request, pk):
-        inventory = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        inventory.ingredient = Ingredient.objects.get(
-            id=serializer.data['ingredient'])
-        inventory.availability = serializer.data['availability']
-        inventory.branch = Branch.objects.get(
-            id=serializer.data['branch'])
-
+    def put(self, request, *args, **kwargs):
         try:
-            inventory.save()
+            return self.update(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(inventory)
-        return Response(serializer.data)
-
-    def partial_update(self, request, pk):
-        inventory = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        inventory.ingredient = Ingredient.objects.get(
-            id=serializer.data['ingredient'])
-        inventory.availability = serializer.data['availability']
-        inventory.branch = Branch.objects.get(
-            id=serializer.data['branch'])
-
+    def patch(self, request, *args, **kwargs):
         try:
-            inventory.save()
+            return self.update(request, *args, **kwargs)
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
-        # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(inventory)
-        return Response(serializer.data)
-
-    def destroy(self, request, pk):
-        inventory = self.get_object()
-        inventory.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        try:
+            return self.destroy(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)

@@ -37,7 +37,7 @@ urlpatterns = [
 
     # Paths Promotion
     path('promotions/',
-         PromotionAPIView.as_view({'get': 'list', 'post': 'create'})),
+         PromotionAPIView.as_view()),
     path('promotions/<int:pk>/',
          PromotionAPIDetailView.as_view({'get': 'retrieve',
                                          'put': 'update',
