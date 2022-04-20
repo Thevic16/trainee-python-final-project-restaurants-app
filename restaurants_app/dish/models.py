@@ -8,7 +8,7 @@ from restaurant.models import Restaurant, Branch
 
 
 def upload_dish_image(instance, file_name):
-    return f'dishes/{instance.dish.name}/{file_name}'
+    return f'dishes/{instance.name}/{file_name}'
 
 
 class MenuCategory(models.Model):
@@ -24,17 +24,13 @@ class Dish(models.Model):
     price = models.DecimalField(max_digits=15, decimal_places=2,
                                 validators=[validator_no_negative])
     description = models.TextField(blank=True)
+    photo = models.ImageField(upload_to=upload_dish_image)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     menu_category = models.ForeignKey(MenuCategory, on_delete=models.CASCADE)
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
-
-
-class DishPhoto(models.Model):
-    dish = models.OneToOneField(Dish, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to=upload_dish_image)
 
 
 class Promotion(models.Model):

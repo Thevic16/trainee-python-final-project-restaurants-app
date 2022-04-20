@@ -56,8 +56,8 @@ class Logger:
         env = environ.Env()
         environ.Env.read_env()
 
-        # Create todo list logger
-        logger_app_file = logging.getLogger("Todo list file")
+        # Create Restaurant logger
+        logger_app_file = logging.getLogger("Restaurant file")
 
         try:
             # Create handler
@@ -78,8 +78,8 @@ class Logger:
         Returns:
             logger (logging.Logger): Logger
         """
-        # Create todo list logger
-        logger_app_terminal = logging.getLogger("Todo list terminal")
+        # Create Restaurant logger
+        logger_app_terminal = logging.getLogger("Restaurant terminal")
         logger_app_terminal.setLevel(logging.DEBUG)
 
         # Create handler
