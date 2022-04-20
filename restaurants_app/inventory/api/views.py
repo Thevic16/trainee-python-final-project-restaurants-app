@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 
-from inventory.api.serializers import UnitSerializer, IngredientSerializer, \
-    RecipeSerializer, InventorySerializer
+from inventory.api.serializers import (UnitSerializer, IngredientSerializer,
+                                       RecipeSerializer, InventorySerializer)
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from django.core.exceptions import ValidationError
 from utilities.logger import Logger
