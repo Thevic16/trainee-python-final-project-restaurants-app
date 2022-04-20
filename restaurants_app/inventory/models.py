@@ -10,8 +10,8 @@ from restaurant.models import Branch
 
 # Create your models here.
 class Unit(models.Model):
-    name = models.CharField(max_length=120)
-    abbreviation = models.CharField(max_length=60)
+    name = models.CharField(max_length=120, unique=True)
+    abbreviation = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
         return self.name
