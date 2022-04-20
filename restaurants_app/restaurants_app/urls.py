@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 from rest_framework_swagger.views import get_swagger_view
+
 
 schema_view = get_swagger_view(title='Restaurant API')
 
@@ -23,6 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Dish Api
     path('api/', include('dish.api.urls')),
+
+    # Restaurant Api
+    path('api/', include('restaurant.urls')),
 
     # Inventory Api
     path('api/', include('inventory.api.urls')),

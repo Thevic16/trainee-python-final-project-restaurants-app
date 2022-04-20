@@ -3,9 +3,17 @@ from django.db import models
 from dish.models import Dish
 from person.models import Person
 from restaurant.models import Branch
+from restaurant.models import Restaurant
 
 
-# Create your models here.
+class Branch(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    direction = models.TextField(blank=True)
+
+    def __str__(self) -> str:
+        return self.direction
+
+
 class Status(models.Model):
     name = models.CharField(max_length=120)
 
@@ -38,3 +46,4 @@ class ItemOrder(models.Model):
     promotion = models.ForeignKey(Dish, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     item_type = models.ForeignKey(ItemType, on_delete=models.CASCADE)
+
