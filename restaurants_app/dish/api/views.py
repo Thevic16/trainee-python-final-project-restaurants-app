@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from dish.api.serializers import (MenuCategorySerializer, DishSerializer,
-                                  PromotionSerializer)
-from dish.models import MenuCategory, Dish, Promotion
+                                  PromotionSerializer, DishPhotoSerializer)
+from dish.models import MenuCategory, Dish, Promotion, DishPhoto
 
 from restaurant.models import Restaurant, Branch
 from utilities.logger import Logger
+from rest_framework import generics, mixins
 
 
 # MenuCategory views
@@ -26,13 +27,13 @@ class MenuCategoryAPIView(GenericViewSet):
         serializer.is_valid(raise_exception=True)
 
         # After create person model and implement jwt this has to be modified.
-        object = MenuCategory(name=serializer.data['name'],
-                              restaurant=Restaurant.objects.all().first())
+        menu_category = MenuCategory(name=serializer.data['name'],
+                                     restaurant=Restaurant.objects.all().first())
 
-        object.save()
+        menu_category.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(menu_category)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -50,37 +51,37 @@ class MenuCategoryAPIDetailView(GenericViewSet):
     serializer_class = MenuCategorySerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        menu_category = self.get_object()
+        serializer = self.get_serializer(menu_category)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        menu_category = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.save()
+        menu_category.name = serializer.data['name']
+        menu_category.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(menu_category)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        menu_category = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.save()
+        menu_category.name = serializer.data['name']
+        menu_category.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(menu_category)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        menu_category = self.get_object()
+        menu_category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -91,7 +92,7 @@ class DishAPIView(GenericViewSet):
      allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Dish.objects.all()
+    queryset = Dish.objects.all().filter(is_deleted=False)
     serializer_class = DishSerializer
 
     def create(self, request, *args, **kwargs):
@@ -99,18 +100,17 @@ class DishAPIView(GenericViewSet):
         serializer.is_valid(raise_exception=True)
 
         # After create person model and implement jwt this has to be modified.
-        object = Dish(name=serializer.data['name'],
-                      price=serializer.data['price'],
-                      description=serializer.data['description'],
-                      photo=serializer.data['photo'],
-                      restaurant=Restaurant.objects.all().first(),
-                      menu_category=MenuCategory.objects.get(
-                          id=serializer.data['menu_category']))
+        dish = Dish(name=serializer.data['name'],
+                    price=serializer.data['price'],
+                    description=serializer.data['description'],
+                    restaurant=Restaurant.objects.all().first(),
+                    menu_category=MenuCategory.objects.get(
+                        id=serializer.data['menu_category']))
 
-        object.save()
+        dish.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(dish)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -124,64 +124,87 @@ class DishAPIDetailView(GenericViewSet):
      restaurant administrator role is allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Dish.objects.all()
+    queryset = Dish.objects.all().filter(is_deleted=False)
     serializer_class = DishSerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        dish = self.get_object()
+        serializer = self.get_serializer(dish)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        dish = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.price = serializer.data['price']
-        object.description = serializer.data['description']
-        object.photo = serializer.data['photo']
-        object.menu_category = MenuCategory.objects.get(
+        dish.name = serializer.data['name']
+        dish.price = serializer.data['price']
+        dish.description = serializer.data['description']
+        dish.menu_category = MenuCategory.objects.get(
             id=serializer.data['menu_category'])
 
-        object.save()
+        dish.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(dish)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        dish = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.price = serializer.data['price']
-        object.description = serializer.data['description']
-        object.photo = serializer.data['photo']
-        object.menu_category = MenuCategory.objects.get(
+        dish.name = serializer.data['name']
+        dish.price = serializer.data['price']
+        dish.description = serializer.data['description']
+        dish.menu_category = MenuCategory.objects.get(
             id=serializer.data['menu_category'])
 
-        object.save()
+        dish.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(dish)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        dish = self.get_object()
+        dish.is_deleted = True
+        dish.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# DishPhoto
+class DishPhotoAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+    permission_classes = []
+    queryset = DishPhoto.objects.all()
+    serializer_class = DishPhotoSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return super(DishPhotoAPIView, self).get(request, *args, **kwargs)
+
+
+class DishPhotoAPIDetailView(mixins.DestroyModelMixin,
+                             generics.RetrieveAPIView):
+    permission_classes = []
+    serializer_class = DishPhotoSerializer
+    queryset = DishPhoto.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
 # Promotion views
-class PromotionAPIDetailView(GenericViewSet):
+class PromotionAPIView(GenericViewSet):
     """
     Promotion view set to create and list,only restaurant administrator role is
      allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Promotion.objects.all()
+    queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
 
     def create(self, request, *args, **kwargs):
@@ -190,31 +213,31 @@ class PromotionAPIDetailView(GenericViewSet):
 
         # After create person model and implement jwt this has to be
         # modified.
-        object = Promotion(name=serializer.data['name'],
-                           price=serializer.data['price'],
-                           since_date=serializer.data['since_date'],
-                           up_to=serializer.data['up_to'])
+        promotion = Promotion(name=serializer.data['name'],
+                              price=serializer.data['price'],
+                              since_date=serializer.data['since_date'],
+                              up_to=serializer.data['up_to'])
 
         # Here It is necessary to save before using the many-to-many
         # relationships
         try:
-            object.save()
+            promotion.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Assigning many-to-many relationships
         for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
-            object.dishes.add(dish)
+            promotion.dishes.add(dish)
 
         for branch in Branch.objects.filter(
                 pk__in=serializer.data['branches']):
-            object.branches.add(branch)
+            promotion.branches.add(branch)
 
-        object.save()
+        promotion.save()
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(promotion)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -222,75 +245,77 @@ class PromotionAPIDetailView(GenericViewSet):
         return Response(serializer.data)
 
 
-class PromotionAPIView(GenericViewSet):
+class PromotionAPIDetailView(GenericViewSet):
     """
     Promotion view set to retrieve, update, partial_update and destroy,only
      restaurant administrator role is allowed to perform these actions.
     """
     permission_classes = []
-    queryset = Promotion.objects.all()
+    queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
 
     def retrieve(self, request, pk):
-        object = self.get_object()
-        serializer = self.get_serializer(object)
+        promotion = self.get_object()
+        serializer = self.get_serializer(promotion)
         return Response(serializer.data)
 
     def update(self, request, pk):
-        object = self.get_object()
+        promotion = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.price = serializer.data['price']
-        object.since_date = serializer.data['since_date']
-        object.up_to = serializer.data['up_to']
+        promotion.name = serializer.data['name']
+        promotion.price = serializer.data['price']
+        promotion.since_date = serializer.data['since_date']
+        promotion.up_to = serializer.data['up_to']
 
         for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
-            object.dishes.add(dish)
+            promotion.dishes.add(dish)
 
         for branch in Branch.objects.filter(
                 pk__in=serializer.data['branches']):
-            object.branches.add(branch)
+            promotion.branches.add(branch)
 
         try:
-            object.save()
+            promotion.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(promotion)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):
-        object = self.get_object()
+        promotion = self.get_object()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        object.name = serializer.data['name']
-        object.price = serializer.data['price']
-        object.since_date = serializer.data['since_date']
-        object.up_to = serializer.data['up_to']
+        promotion.name = serializer.data['name']
+        promotion.price = serializer.data['price']
+        promotion.since_date = serializer.data['since_date']
+        promotion.up_to = serializer.data['up_to']
 
         for dish in Dish.objects.filter(pk__in=serializer.data['dishes']):
-            object.dishes.add(dish)
+            promotion.dishes.add(dish)
 
         for branch in Branch.objects.filter(
                 pk__in=serializer.data['branches']):
-            object.branches.add(branch)
+            promotion.branches.add(branch)
 
         try:
-            object.save()
+            promotion.save()
         except ValidationError as e:
             Logger.debug(f'ValidationError:{e}')
             return Response(e)
 
         # Overwriting the serializer to add id field.
-        serializer = self.get_serializer(object)
+        serializer = self.get_serializer(promotion)
         return Response(serializer.data)
 
     def destroy(self, request, pk):
-        object = self.get_object()
-        object.delete()
+        promotion = self.get_object()
+        promotion.is_deleted = True
+        promotion.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
