@@ -12,6 +12,8 @@ psycopg2-binary = "*"
 djangorestframework-simplejwt = "*"
 gunicorn = "*"
 django-environ = "*"
+pyyaml = "*"
+uritemplate = "*"
 
 [dev-packages]
 flake8 = "*"
