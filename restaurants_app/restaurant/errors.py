@@ -54,3 +54,19 @@ class RestaurantMustBeMonthly(PayDayValidationError):
         }
         code = 'restaurant_monthly'
         super().__init__(detail, code)
+
+
+class PayValidationError(ValidationError):
+    """Base class for pay validation errors"""
+    pass
+
+
+class MonthLte12(PayDayValidationError):
+    """Raised when a pay choose is gt 12"""
+
+    def __init__(self, detail=None, code=None):
+        detail = {
+            "month_payed": "The month must not be greather than 12"
+        }
+        code = 'month_payed_lt_12'
+        super().__init__(detail, code)

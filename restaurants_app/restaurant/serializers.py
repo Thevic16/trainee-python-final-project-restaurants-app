@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
-from restaurant.models import FoodType, PayDay, PayType, Restaurant
-from restaurant.validations import PayDayValidator, RestaurantValidator
+from restaurant.models import FoodType, Pay, PayDay, PayType, Restaurant
+from restaurant.validations import (
+    PayDayValidator, PayValidator, RestaurantValidator)
 
 
 class FoodTypeSerializer(serializers.ModelSerializer):
@@ -60,3 +61,27 @@ class PayDayPost(PayDaySerializer):
 
 class PayDayGet(PayDaySerializer):
     restaurant = serializers.StringRelatedField()
+
+
+class PaySerializer(serializers.ModelSerializer):
+    pay = serializers.ReadOnlyField()
+    pay_type = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Pay
+        fields = '__all__'
+
+    def validate(self, attrs):
+        PayValidator.valid_month(attrs.get('month_payed'))
+        PayDayValidator.monthly_restaurant(
+            attrs.get('restaurant').pay_type.name)
+        return super().validate(attrs)
+
+
+class PayGetSerializer(serializers.ModelSerializer):
+    restaurant = serializers.StringRelatedField()
+    pay_type = serializers.StringRelatedField()
+
+    class Meta:
+        model = Pay
+        fields = '__all__'

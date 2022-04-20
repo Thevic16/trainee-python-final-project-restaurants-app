@@ -34,3 +34,10 @@ class PayDayValidator:
     def monthly_restaurant(restaurant_type: str):
         if restaurant_type != 'monthly':
             raise errors.RestaurantMustBeMonthly()
+
+
+class PayValidator:
+    """Validations for pay operation"""
+    def valid_month(month: int):
+        if month > 12:
+            raise errors.MonthLte12

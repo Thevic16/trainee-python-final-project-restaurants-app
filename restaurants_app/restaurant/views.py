@@ -1,4 +1,7 @@
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from restaurant import models
 from restaurant import serializers
@@ -61,3 +64,29 @@ class PayDayList(PayDay, generics.ListCreateAPIView):
 
 class PayDayDetail(PayDay, generics.RetrieveUpdateDestroyAPIView):
     pass
+
+
+class PayMonthly(viewsets.ModelViewSet):
+    serializer_class = serializers.PaySerializer
+    queryset = models.Pay.objects.all()
+
+    @action(detail=True, methods=['post'])
+    def pay_monthly(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        restaurant_id = serializer.data.get('restaurant')
+        restaurant = get_object_or_404(models.Restaurant, pk=restaurant_id)
+        pay = restaurant.monthly_pay * restaurant.max_branches
+        payment = models.Pay(
+            pay=pay,
+            pay_type=restaurant.pay_type,
+            restaurant=restaurant,
+            month_payed=serializer.data.get('month_payed')
+        )
+        payment.save()
+        return Response(serializer.data, status=201)
+
+    @action(detail=True, methods=['get'])
+    def payments(self, request):
+        serializer = serializers.PayGetSerializer(self.queryset, many=True)
+        return Response(serializer.data, status=200)
