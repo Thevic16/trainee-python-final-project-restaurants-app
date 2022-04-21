@@ -32,6 +32,9 @@ urlpatterns = [
     # Inventory Api
     path('api/', include('inventory.api.urls')),
 
+    # Order Api
+    path('api/', include('order.urls')),
+
     # Swagger Documentation
     path('docs/', schema_view),
 ]
