@@ -1,10 +1,10 @@
 from django.urls import path
 
-from dish.api.views import (MenuCategoryAPIView,
-                            MenuCategoryAPIDetailView,
-                            DishAPIDetailView,
-                            PromotionAPIDetailView,
-                            DishAPIView, PromotionAPIView)
+from dish.views import (MenuCategoryAPIView,
+                        MenuCategoryAPIDetailView,
+                        DishAPIDetailView,
+                        PromotionAPIDetailView,
+                        DishAPIView, PromotionAPIView)
 
 app_name = 'dish'
 

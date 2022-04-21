@@ -1,10 +1,10 @@
 from django.urls import path
 
-from inventory.api.views import (UnitAPIView, UnitAPIDetailView,
-                                 IngredientAPIDetailView, IngredientAPIView,
-                                 RecipeAPIView,
-                                 RecipeAPIDetailView, InventoryAPIDetailView,
-                                 InventoryAPIView)
+from inventory.views import (UnitAPIView, UnitAPIDetailView,
+                             IngredientAPIDetailView, IngredientAPIView,
+                             RecipeAPIView,
+                             RecipeAPIDetailView, InventoryAPIDetailView,
+                             InventoryAPIView)
 
 app_name = 'inventory'
 

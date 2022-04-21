@@ -24,7 +24,8 @@ class Dish(models.Model):
     price = models.DecimalField(max_digits=15, decimal_places=2,
                                 validators=[validator_no_negative])
     description = models.TextField(blank=True)
-    photo = models.ImageField(upload_to=upload_dish_image)
+    photo = models.ImageField(upload_to=upload_dish_image, null=True,
+                              blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     menu_category = models.ForeignKey(MenuCategory, on_delete=models.CASCADE)
     is_deleted = models.BooleanField(default=False)
