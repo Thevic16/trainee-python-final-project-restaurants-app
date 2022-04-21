@@ -16,7 +16,11 @@ class MenuCategoryAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     serializer_class = MenuCategorySerializer
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        try:
+            return self.create(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def get(self, request, *args, **kwargs):
         return super(MenuCategoryAPIView, self).get(request, *args, **kwargs)
@@ -30,13 +34,25 @@ class MenuCategoryAPIDetailView(mixins.UpdateModelMixin,
     queryset = MenuCategory.objects.all()
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        try:
+            return self.update(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        try:
+            return self.update(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        try:
+            return self.destroy(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
 
 # Dish views
@@ -46,7 +62,11 @@ class DishAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     serializer_class = DishSerializer
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        try:
+            return self.create(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def get(self, request, *args, **kwargs):
         return super(DishAPIView, self).get(request, *args, **kwargs)
@@ -59,10 +79,18 @@ class DishAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
     queryset = Dish.objects.all().filter(is_deleted=False)
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        try:
+            return self.update(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        try:
+            return self.update(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def delete(self, request, *args, **kwargs):
         dish = self.get_object()
@@ -95,10 +123,18 @@ class PromotionAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
     queryset = Promotion.objects.all().filter(is_deleted=False)
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        try:
+            return self.update(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        try:
+            return self.update(request, *args, **kwargs)
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
 
     def delete(self, request, *args, **kwargs):
         promotion = self.get_object()

@@ -36,7 +36,7 @@ class Branch(models.Model):
     direction = models.TextField(blank=True)
 
     def __str__(self) -> str:
-        return self.direction
+        return f'{self.direction} (Restaurant: {self.restaurant.name})'
 
 
 class DeliveryType(models.Model):
