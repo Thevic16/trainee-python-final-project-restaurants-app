@@ -10,7 +10,7 @@ from rest_framework import generics, mixins
 
 
 # MenuCategory views
-class MenuCategoryAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class MenuCategoryList(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
@@ -23,12 +23,12 @@ class MenuCategoryAPIView(mixins.CreateModelMixin, generics.ListAPIView):
             return Response(e)
 
     def get(self, request, *args, **kwargs):
-        return super(MenuCategoryAPIView, self).get(request, *args, **kwargs)
+        return super(MenuCategoryList, self).get(request, *args, **kwargs)
 
 
-class MenuCategoryAPIDetailView(mixins.UpdateModelMixin,
-                                mixins.DestroyModelMixin,
-                                generics.RetrieveAPIView):
+class MenuCategoryDetail(mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin,
+                         generics.RetrieveAPIView):
     permission_classes = []
     serializer_class = MenuCategorySerializer
     queryset = MenuCategory.objects.all()
@@ -56,7 +56,7 @@ class MenuCategoryAPIDetailView(mixins.UpdateModelMixin,
 
 
 # Dish views
-class DishAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class DishList(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Dish.objects.all().filter(is_deleted=False)
     serializer_class = DishSerializer
@@ -69,11 +69,11 @@ class DishAPIView(mixins.CreateModelMixin, generics.ListAPIView):
             return Response(e)
 
     def get(self, request, *args, **kwargs):
-        return super(DishAPIView, self).get(request, *args, **kwargs)
+        return super(DishList, self).get(request, *args, **kwargs)
 
 
-class DishAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
-                        generics.RetrieveAPIView):
+class DishDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                 generics.RetrieveAPIView):
     permission_classes = []
     serializer_class = DishSerializer
     queryset = Dish.objects.all().filter(is_deleted=False)
@@ -100,7 +100,7 @@ class DishAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 
 
 # Promotion views
-class PromotionAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class PromotionList(mixins.CreateModelMixin, generics.ListAPIView):
     permission_classes = []
     queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
@@ -113,11 +113,11 @@ class PromotionAPIView(mixins.CreateModelMixin, generics.ListAPIView):
             return Response(e)
 
     def get(self, request, *args, **kwargs):
-        return super(PromotionAPIView, self).get(request, *args, **kwargs)
+        return super(PromotionList, self).get(request, *args, **kwargs)
 
 
-class PromotionAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
-                             generics.RetrieveAPIView):
+class PromotionDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                      generics.RetrieveAPIView):
     permission_classes = []
     serializer_class = PromotionSerializer
     queryset = Promotion.objects.all().filter(is_deleted=False)

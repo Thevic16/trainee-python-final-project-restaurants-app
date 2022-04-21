@@ -1,37 +1,37 @@
 from django.urls import path
 
-from inventory.views import (UnitAPIView, UnitAPIDetailView,
-                             IngredientAPIDetailView, IngredientAPIView,
-                             RecipeAPIView,
-                             RecipeAPIDetailView, InventoryAPIDetailView,
-                             InventoryAPIView)
+from inventory.views import (UnitList, UnitDetail,
+                             IngredientDetail, IngredientList,
+                             RecipeList,
+                             RecipeDetail, InventoryDetail,
+                             InventoryList)
 
 app_name = 'inventory'
 
 urlpatterns = [
     # Paths Unit
     path('units/',
-         UnitAPIView.as_view()),
-    path('units/<int:pk>/', UnitAPIDetailView.as_view(),
+         UnitList.as_view()),
+    path('units/<int:pk>/', UnitDetail.as_view(),
          name='unit-detail'),
 
     # Paths Ingredient
     path('ingredients/',
-         IngredientAPIView.as_view()),
-    path('ingredients/<int:pk>/', IngredientAPIDetailView.as_view(),
+         IngredientList.as_view()),
+    path('ingredients/<int:pk>/', IngredientDetail.as_view(),
          name='ingredient-detail'),
 
     # Paths Recipe
     path('recipes/',
-         RecipeAPIView.as_view()),
+         RecipeList.as_view()),
     path('recipes/<int:pk>/',
-         RecipeAPIDetailView.as_view(),
+         RecipeDetail.as_view(),
          name='recipe-detail'),
 
     # Paths Inventory
     path('inventories/',
-         InventoryAPIView.as_view()),
+         InventoryList.as_view()),
     path('inventories/<int:pk>/',
-         InventoryAPIDetailView.as_view(),
+         InventoryDetail.as_view(),
          name='inventory-detail'),
 ]

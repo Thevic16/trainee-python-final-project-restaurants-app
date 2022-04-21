@@ -88,7 +88,7 @@ pre_save.connect(dish_model_pre_save_receiver, sender=Dish)
 
 
 class Promotion(models.Model):
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120, unique=True)
     price = models.DecimalField(max_digits=15, decimal_places=2,
                                 validators=[validator_no_negative])
     since_date = models.DateField(null=True, blank=True)
