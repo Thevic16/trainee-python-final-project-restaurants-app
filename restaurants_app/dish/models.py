@@ -95,6 +95,7 @@ class Promotion(models.Model):
     up_to = models.DateField(null=True, blank=True)
     dishes = models.ManyToManyField(Dish)
     branches = models.ManyToManyField(Branch)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
@@ -108,7 +109,7 @@ def promotion_model_pre_save_receiver(sender, instance, *args,
 
 
 def promotion_dishes_m2m_changed_receiver(sender, instance, action, *args,
-                                         **kwargs):
+                                          **kwargs):
     if action == 'post_add' or action == 'post_remove':
         Logger.debug(f'dishes: '
                      f'{instance.dishes}')
@@ -116,13 +117,13 @@ def promotion_dishes_m2m_changed_receiver(sender, instance, action, *args,
         validator_ids_list(
             [dish.restaurant.id for dish in instance.dishes.all()] +
             [branch.restaurant.id for branch in
-             instance.branches.all()],
+             instance.branches.all()] + [instance.restaurant.id],
             'dishes',
             'branches')
 
 
 def promotion_branches_m2m_changed_receiver(sender, instance, action, *args,
-                                         **kwargs):
+                                            **kwargs):
     if action == 'post_add' or action == 'post_remove':
         Logger.debug(f'branches: '
                      f'{instance.branches}')
@@ -130,7 +131,7 @@ def promotion_branches_m2m_changed_receiver(sender, instance, action, *args,
         validator_ids_list(
             [dish.restaurant.id for dish in instance.dishes.all()] +
             [branch.restaurant.id for branch in
-             instance.branches.all()],
+             instance.branches.all()] + [instance.restaurant.id],
             'dishes',
             'branches')
 

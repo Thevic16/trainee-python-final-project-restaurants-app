@@ -5,4 +5,5 @@ __pycache__
 */migrations/*
 mysite.log
 api_design.json
+prueba.py
 
