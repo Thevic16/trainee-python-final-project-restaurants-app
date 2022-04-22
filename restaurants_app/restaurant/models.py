@@ -1,6 +1,10 @@
 from django.db import models
 
 
+def upload_branch_image(instance, file_name):
+    return f'branches/{instance.phone}/{file_name}'
+
+
 class FoodType(models.Model):
     food = models.CharField(max_length=100)
     description = models.TextField()
@@ -31,19 +35,24 @@ class Restaurant(models.Model):
         return self.name
 
 
-class Branch(models.Model):
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    direction = models.TextField(blank=True)
-
-    def __str__(self) -> str:
-        return self.direction
-
-
 class DeliveryType(models.Model):
     type = models.CharField(max_length=120, unique=True)
 
     def __str__(self):
         return self.type
+
+
+class Branch(models.Model):
+    direction = models.CharField(max_length=300)
+    phone = models.CharField(max_length=150, null=True)
+    photo = models.ImageField(
+        upload_to=upload_branch_image, null=True, blank=True)
+    active = models.BooleanField(default=True)
+    delivery_type = models.ManyToManyField(DeliveryType)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.direction
 
 
 class PayDay(models.Model):

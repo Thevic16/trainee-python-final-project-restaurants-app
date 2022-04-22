@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from restaurant.models import FoodType, Pay, PayDay, PayType, Restaurant
+from restaurant.models import (
+    Branch, FoodType, Pay, PayDay, PayType, Restaurant)
 from restaurant.validations import (
     PayDayValidator, PayValidator, RestaurantValidator)
 
@@ -85,3 +86,20 @@ class PayGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pay
         fields = '__all__'
+
+
+class BranchSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Branch
+        fields = ('direction', 'phone', 'active',
+                  'delivery_type', 'restaurant', 'photo')
+
+
+class BranchGetSerializer(BranchSerializer):
+    restaurant = serializers.StringRelatedField()
+    delivery_type = serializers.StringRelatedField()
+
+
+class BranchPostSerializer(BranchSerializer):
+    pass
