@@ -78,10 +78,6 @@ class MapServices:
             branch_id)
         promotions_map = cls.get_promotions_map_by_branch(branch_id)
 
-        Logger.debug(f'list_menus_categories_map:{list_menus_categories_map}'
-                     ' \n')
-        Logger.debug(f'promotions_map:{promotions_map} \n')
-
         return MenuMap(menus=list_menus_categories_map,
                        promotions=promotions_map.list_items)
 
