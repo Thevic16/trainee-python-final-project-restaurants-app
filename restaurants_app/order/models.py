@@ -1,7 +1,7 @@
 from django.db import models
 
 from dish.models import Dish
-from person.models import Person
+from user.models import User
 from restaurant.models import Branch
 
 
@@ -18,7 +18,7 @@ class Order(models.Model):
     delivery_type = models.ForeignKey(Status, on_delete=models.CASCADE,
                                       related_name='delivery_type_order')
     direction = models.CharField(max_length=120)
-    client = models.ForeignKey(Person, on_delete=models.CASCADE)
+    client = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
 
     def __str__(self):

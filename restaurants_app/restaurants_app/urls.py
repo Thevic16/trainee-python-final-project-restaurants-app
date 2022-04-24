@@ -32,6 +32,9 @@ urlpatterns = [
     # Order Api
     path('api/', include('order.urls')),
 
+    # Person Api
+    path('api/', include('user.urls')),
+
     # Restaurant Api
     path('api/', include('restaurant.urls')),
 

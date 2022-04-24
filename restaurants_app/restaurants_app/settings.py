@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     # Own
     'dish',
     'inventory',
-    'person',
+    'user',
     'restaurant',
     'order',
 ]
