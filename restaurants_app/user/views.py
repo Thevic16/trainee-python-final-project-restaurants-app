@@ -3,12 +3,11 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 
 # Create your views here.
-from user.serializers import GoogleSocialAuthSerializer
+from user.serializers import GoogleSocialAuthClientSerializer
 
 
-class GoogleSocialAuthView(GenericAPIView):
-
-    serializer_class = GoogleSocialAuthSerializer
+class GoogleSocialAuthClientView(GenericAPIView):
+    serializer_class = GoogleSocialAuthClientSerializer
 
     def post(self, request):
         """

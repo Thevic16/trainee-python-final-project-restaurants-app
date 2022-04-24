@@ -5,6 +5,9 @@ from django.db import models
 # Create your models here.
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from restaurant.models import Restaurant, Branch
+from utilities.logger import Logger
+
 
 class Role(models.Model):
     name = models.CharField(max_length=120, unique=True)
@@ -36,6 +39,15 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_client_user(self, username, email, password=None):
+        if password is None:
+            raise TypeError('Password should not be none')
+
+        user = self.create_user(username, email, password)
+        user.set_role('Client')
+        user.save()
+        return user
+
 
 AUTH_PROVIDERS = {'google': 'google', 'email': 'email'}
 
@@ -44,13 +56,13 @@ class User(models.Model):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     password = models.EmailField(max_length=500)
-    '''
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    role = models.ForeignKey(Role, on_delete=models.CASCADE,
+                             blank=True, null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,
                                    blank=True, null=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE,
                                blank=True, null=True)
-                               '''
 
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -73,6 +85,13 @@ class User(models.Model):
 
     def set_password(self, password: str):
         self.password = password
+
+    def set_role(self, role_name: str):
+        role = Role.objects.get(name=role_name)
+        if role:
+            self.role = role
+        else:
+            Logger.error(f"Role '{role_name}' do not exist in the database")
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)

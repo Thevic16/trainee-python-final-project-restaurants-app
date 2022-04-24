@@ -1,14 +1,9 @@
-import os
-
 from rest_framework import serializers
-
 from user import google
-from rest_framework.exceptions import AuthenticationFailed
-
 from user.register import register_social_user
 
 
-class GoogleSocialAuthSerializer(serializers.Serializer):
+class GoogleSocialAuthClientSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
 
     def validate_auth_token(self, auth_token):
@@ -26,4 +21,5 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
         provider = 'google'
 
         return register_social_user(
-            provider=provider, user_id=user_id, email=email, name=name)
+            provider=provider, user_id=user_id, email=email, name=name,
+            user_role='Client')

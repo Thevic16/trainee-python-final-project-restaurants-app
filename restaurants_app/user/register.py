@@ -24,7 +24,8 @@ def authenticate(email: str, password: str):
         raise AuthenticationFailed
 
 
-def register_social_user(provider, user_id, email, name):
+def register_social_user(provider: str, user_id: int, email: str, name: str,
+                         user_role: str):
     filtered_user_by_email = User.objects.filter(email=email)
 
     if filtered_user_by_email.exists():
@@ -50,7 +51,12 @@ def register_social_user(provider, user_id, email, name):
         user = {
             'username': generate_username(name), 'email': email,
             'password': os.environ.get('SOCIAL_SECRET')}
-        user = User.objects.create_user(**user)
+
+        if user_role == 'Client':
+            user = User.objects.create_client_user(**user)
+        else:
+            user = User.objects.create_user(**user)
+
         user.is_verified = True
         user.auth_provider = provider
         user.save()
