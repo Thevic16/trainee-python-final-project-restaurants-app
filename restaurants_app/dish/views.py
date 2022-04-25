@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from dish.serializers import (MenuCategorySerializer, DishSerializer,
                               PromotionSerializer)
 from dish.models import MenuCategory, Dish, Promotion
+from person.permissions import ReadOnly, IsRestaurantAdministrator
 from utilities.logger import Logger
 from rest_framework import generics, mixins
 
 
 # MenuCategory views
 class MenuCategoryList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
 

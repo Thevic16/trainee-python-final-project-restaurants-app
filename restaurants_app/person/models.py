@@ -174,7 +174,7 @@ class Person(models.Model):
 
     def tokens(self):
         return {
-            'refresh': self.get_token(),
+            'token': self.get_token(),
             'expires': self.get_expires()
         }
 
