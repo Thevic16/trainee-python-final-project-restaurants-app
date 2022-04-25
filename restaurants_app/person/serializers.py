@@ -1,9 +1,6 @@
 from rest_framework import serializers
-
-from restaurant.models import Restaurant
-from user import google
-
-from user.register import register_social_user
+from person import google
+from person.register import register_social_user
 
 
 class GoogleSocialAuthClientSerializer(serializers.Serializer):
@@ -107,4 +104,3 @@ class GoogleSocialAuthBranchManagerSerializer(
             email=email, name=name,
             user_role='Branch Manager',
             restaurant_id=None, branch_id=int(attrs.get('branch_id')))
-    

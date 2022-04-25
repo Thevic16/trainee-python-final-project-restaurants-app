@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 
-from user.models import Role
+from person.models import Role
 from utilities.logger import Logger
 
 

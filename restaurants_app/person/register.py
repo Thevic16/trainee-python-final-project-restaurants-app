@@ -1,4 +1,4 @@
-from user.models import User
+from person.models import Person
 import os
 import random
 from rest_framework.exceptions import AuthenticationFailed
@@ -8,7 +8,7 @@ from utilities.logger import Logger
 
 def generate_username(name):
     username = "".join(name.split(' ')).lower()
-    if not User.objects.filter(username=username).exists():
+    if not Person.objects.filter(username=username).exists():
         return username
     else:
         random_username = username + str(random.randint(0, 1000))
@@ -16,7 +16,7 @@ def generate_username(name):
 
 
 def authenticate(email: str, password: str):
-    user = User.objects.filter(email=email).first()
+    user = Person.objects.filter(email=email).first()
 
     if user:
         return user
@@ -26,7 +26,7 @@ def authenticate(email: str, password: str):
 
 def register_social_user(provider: str, user_id: int, email: str, name: str,
                          user_role: str, restaurant_id: int, branch_id: int):
-    filtered_user_by_email = User.objects.filter(email=email)
+    filtered_user_by_email = Person.objects.filter(email=email)
 
     if filtered_user_by_email.exists():
 
@@ -40,6 +40,7 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
             return {
                 'username': registered_user.username,
                 'email': registered_user.email,
+                'role': registered_user.role.name,
                 'tokens': registered_user.tokens()}
 
         else:
@@ -53,18 +54,18 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
             'password': os.environ.get('SOCIAL_SECRET')}
 
         if user_role == 'Client':
-            user = User.objects.create_client_user(**user)
+            user = Person.objects.create_client_user(**user)
         elif user_role == 'Restaurant Administrator':
-            user = User.objects.create_restaurant_administrator_user(**user)
+            user = Person.objects.create_restaurant_administrator_user(**user)
             user.set_restaurant(restaurant_id)
         elif user_role == 'Employee':
-            user = User.objects.create_employee_user(**user)
+            user = Person.objects.create_employee_user(**user)
             user.set_branch(branch_id)
         elif user_role == 'Branch Manager':
-            user = User.objects.create_branch_manager_user(**user)
+            user = Person.objects.create_branch_manager_user(**user)
             user.set_branch(branch_id)
         else:
-            user = User.objects.create_user(**user)
+            user = Person.objects.create_user(**user)
 
         user.is_verified = True
         user.auth_provider = provider
@@ -75,5 +76,6 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
         return {
             'email': new_user.email,
             'username': new_user.username,
+            'role': new_user.role.name,
             'tokens': new_user.tokens()
         }

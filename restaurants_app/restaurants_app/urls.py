@@ -33,7 +33,7 @@ urlpatterns = [
     path('api/', include('order.urls')),
 
     # Person Api
-    path('api/', include('user.urls')),
+    path('api/', include('person.urls')),
 
     # Restaurant Api
     path('api/', include('restaurant.urls')),

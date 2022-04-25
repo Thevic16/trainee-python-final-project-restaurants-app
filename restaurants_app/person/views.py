@@ -4,11 +4,11 @@ from rest_framework.generics import GenericAPIView
 from django.core.exceptions import ValidationError
 
 # Create your views here.
-from user.serializers import (GoogleSocialAuthClientSerializer,
-                              GoogleSocialAuthRestaurantAdministratorSerializer,
-                              GoogleSocialAuthEmployeeSerializer,
-                              GoogleSocialAuthBranchManagerSerializer
-                              )
+from person.serializers import (GoogleSocialAuthClientSerializer,
+                                GoogleSocialAuthRestaurantAdministratorSerializer,
+                                GoogleSocialAuthEmployeeSerializer,
+                                GoogleSocialAuthBranchManagerSerializer
+                                )
 from utilities.logger import Logger
 
 
@@ -18,7 +18,7 @@ class GoogleSocialAuthClientView(GenericAPIView):
     def post(self, request):
         """
         POST with "auth_token"
-        Send an idtoken as from google to get user information
+        Send an idtoken as from google to get person information
         """
 
         serializer = self.serializer_class(data=request.data)
@@ -33,7 +33,7 @@ class GoogleSocialAuthRestaurantAdministratorView(GenericAPIView):
     def post(self, request):
         """
         POST with "auth_token"
-        Send an idtoken as from google to get user information
+        Send an idtoken as from google to get person information
         """
 
         try:
@@ -55,7 +55,7 @@ class GoogleSocialAuthEmployeeView(GenericAPIView):
     def post(self, request):
         """
         POST with "auth_token"
-        Send an idtoken as from google to get user information
+        Send an idtoken as from google to get person information
         """
 
         try:
@@ -77,7 +77,7 @@ class GoogleSocialAuthBranchManagerView(GenericAPIView):
     def post(self, request):
         """
         POST with "auth_token"
-        Send an idtoken as from google to get user information
+        Send an idtoken as from google to get person information
         """
 
         try:

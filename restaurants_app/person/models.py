@@ -79,7 +79,7 @@ class UserManager(BaseUserManager):
 AUTH_PROVIDERS = {'google': 'google', 'email': 'email'}
 
 
-class User(models.Model):
+class Person(models.Model):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     password = models.EmailField(max_length=500)
