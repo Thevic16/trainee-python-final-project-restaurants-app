@@ -12,7 +12,7 @@ from rest_framework import generics, mixins
 
 # MenuCategory views
 class MenuCategoryList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = [ReadOnly | IsRestaurantAdministrator]
+    permission_classes = []
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
 
