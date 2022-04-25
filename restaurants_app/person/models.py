@@ -170,7 +170,7 @@ class Person(AbstractBaseUser):
         return token
 
     def get_expires(self):
-        return timezone.now() + expire_delta - datetime.timedelta(seconds=200)
+        return timezone.now() + expire_delta - datetime.timedelta(seconds=7200)
 
     def tokens(self):
         return {

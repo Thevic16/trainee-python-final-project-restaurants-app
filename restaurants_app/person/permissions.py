@@ -85,7 +85,7 @@ class IsRestaurantAdministrator(permissions.BasePermission):
         return False
 
 
-class IsRestaurantBranchManager(permissions.BasePermission):
+class IsBranchManager(permissions.BasePermission):
     def has_permission(self, request, view):
         try:
             if request.user.role.name == 'Branch Manager':

@@ -3,16 +3,18 @@ from person.views import (GoogleSocialAuthClientView,
                           GoogleSocialAuthRestaurantAdministratorView,
                           GoogleSocialAuthEmployeeView,
                           GoogleSocialAuthBranchManagerView,
-                          GoogleSocialAuthPortalManagerView)
+                          GoogleSocialAuthPortalManagerView,
+                          GoogleSocialAuthView)
 
 urlpatterns = [
-    path('google/clients/', GoogleSocialAuthClientView.as_view()),
-    path('google/restaurant-administrators/',
+    path('google/auth/', GoogleSocialAuthView.as_view()),
+    path('google/create/clients/', GoogleSocialAuthClientView.as_view()),
+    path('google/create/restaurant-administrators/',
          GoogleSocialAuthRestaurantAdministratorView.as_view()),
-    path('google/employees/',
+    path('google/create/employees/',
          GoogleSocialAuthEmployeeView.as_view()),
-    path('google/branch-managers/',
+    path('google/create/branch-managers/',
          GoogleSocialAuthBranchManagerView.as_view()),
-    path('google/portal-managers/',
+    path('google/create/portal-managers/',
          GoogleSocialAuthPortalManagerView.as_view()),
 ]

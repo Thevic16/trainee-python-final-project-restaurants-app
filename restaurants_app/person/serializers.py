@@ -3,6 +3,28 @@ from person import google
 from person.register import register_social_user, authenticate_portal_manager
 
 
+class GoogleSocialAuthSerializer(serializers.Serializer):
+    auth_token = serializers.CharField()
+
+    def validate_auth_token(self, auth_token):
+        user_data = google.Google.validate(auth_token)
+        try:
+            user_data['sub']
+        except:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+
+        user_id = user_data['sub']
+        email = user_data['email']
+        name = user_data['name']
+        provider = 'google'
+
+        return register_social_user(
+            provider=provider, user_id=user_id, email=email, name=name,
+            user_role=None, restaurant_id=None, branch_id=None)
+
+
 class GoogleSocialAuthClientSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
 
@@ -115,4 +137,3 @@ class GoogleSocialAuthPortalManagerSerializer(
     def validate(self, attrs):
         return authenticate_portal_manager(
             email=attrs.get('email'), password=attrs.get('password'))
-

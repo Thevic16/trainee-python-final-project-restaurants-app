@@ -2,6 +2,8 @@ from person.models import Person
 import os
 import random
 from rest_framework.exceptions import AuthenticationFailed
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from utilities.logger import Logger
 
@@ -65,7 +67,12 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
             user = Person.objects.create_branch_manager_user(**user)
             user.set_branch(branch_id)
         else:
-            user = Person.objects.create_user(**user)
+            raise ValidationError({"auth_token": _('The user that has been '
+                                                   'passed through the token '
+                                                   'does not exist in the '
+                                                   'database.')
+                                   }
+                                  )
 
         user.is_verified = True
         user.auth_provider = provider

@@ -4,13 +4,16 @@ from inventory.serializers import (UnitSerializer, IngredientSerializer,
                                    RecipeSerializer, InventorySerializer)
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from django.core.exceptions import ValidationError
+
+from person.permissions import ReadOnly, IsRestaurantAdministrator, \
+    IsBranchManager
 from utilities.logger import Logger
 from rest_framework import generics, mixins
 
 
 # Views Unit
 class UnitList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [IsRestaurantAdministrator]
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
 
@@ -23,7 +26,7 @@ class UnitList(mixins.CreateModelMixin, generics.ListAPIView):
 
 class UnitDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
                  generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [IsRestaurantAdministrator]
     serializer_class = UnitSerializer
     queryset = Unit.objects.all()
 
@@ -39,7 +42,7 @@ class UnitDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 
 # Ingredient views
 class IngredientList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [IsRestaurantAdministrator]
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
@@ -53,7 +56,7 @@ class IngredientList(mixins.CreateModelMixin, generics.ListAPIView):
 class IngredientDetail(mixins.UpdateModelMixin,
                        mixins.DestroyModelMixin,
                        generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [IsRestaurantAdministrator]
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()
 
@@ -69,7 +72,7 @@ class IngredientDetail(mixins.UpdateModelMixin,
 
 # Recipe views
 class RecipeList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [IsRestaurantAdministrator]
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
@@ -87,7 +90,7 @@ class RecipeList(mixins.CreateModelMixin, generics.ListAPIView):
 class RecipeDetail(mixins.UpdateModelMixin,
                    mixins.DestroyModelMixin,
                    generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [IsRestaurantAdministrator]
     serializer_class = RecipeSerializer
     queryset = Recipe.objects.all()
 
@@ -115,7 +118,7 @@ class RecipeDetail(mixins.UpdateModelMixin,
 
 # Inventory views
 class InventoryList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [IsBranchManager]
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
 
@@ -133,7 +136,7 @@ class InventoryList(mixins.CreateModelMixin, generics.ListAPIView):
 class InventoryDetail(mixins.UpdateModelMixin,
                       mixins.DestroyModelMixin,
                       generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [IsBranchManager]
     serializer_class = InventorySerializer
     queryset = Inventory.objects.all()
 

@@ -12,7 +12,7 @@ from rest_framework import generics, mixins
 
 # MenuCategory views
 class MenuCategoryList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
 
@@ -30,7 +30,7 @@ class MenuCategoryList(mixins.CreateModelMixin, generics.ListAPIView):
 class MenuCategoryDetail(mixins.UpdateModelMixin,
                          mixins.DestroyModelMixin,
                          generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     serializer_class = MenuCategorySerializer
     queryset = MenuCategory.objects.all()
 
@@ -58,7 +58,7 @@ class MenuCategoryDetail(mixins.UpdateModelMixin,
 
 # Dish views
 class DishList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     queryset = Dish.objects.all().filter(is_deleted=False)
     serializer_class = DishSerializer
 
@@ -75,7 +75,7 @@ class DishList(mixins.CreateModelMixin, generics.ListAPIView):
 
 class DishDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
                  generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     serializer_class = DishSerializer
     queryset = Dish.objects.all().filter(is_deleted=False)
 
@@ -102,7 +102,7 @@ class DishDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 
 # Promotion views
 class PromotionList(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     queryset = Promotion.objects.all().filter(is_deleted=False)
     serializer_class = PromotionSerializer
 
@@ -119,7 +119,7 @@ class PromotionList(mixins.CreateModelMixin, generics.ListAPIView):
 
 class PromotionDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
                       generics.RetrieveAPIView):
-    permission_classes = []
+    permission_classes = [ReadOnly | IsRestaurantAdministrator]
     serializer_class = PromotionSerializer
     queryset = Promotion.objects.all().filter(is_deleted=False)
 
