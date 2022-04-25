@@ -60,6 +60,9 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
         if user_role == 'Employee':
             user = User.objects.create_employee_user(**user)
             user.set_branch(branch_id)
+        if user_role == 'Branch Manager':
+            user = User.objects.create_branch_manager_user(**user)
+            user.set_branch(branch_id)
         else:
             user = User.objects.create_user(**user)
 

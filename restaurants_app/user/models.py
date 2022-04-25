@@ -53,6 +53,7 @@ class UserManager(BaseUserManager):
 
         user = self.create_user(username, email, password)
         user.set_role('Employee')
+        user.is_staff = True
         return user
 
     def create_restaurant_administrator_user(self, username, email,
@@ -65,12 +66,12 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         return user
 
-    def create_employee_user(self, username, email, password=None):
+    def create_branch_manager_user(self, username, email, password=None):
         if password is None:
             raise TypeError('Password should not be none')
 
         user = self.create_user(username, email, password)
-        user.set_role('Employee')
+        user.set_role('Branch Manager')
         user.is_staff = True
         return user
 

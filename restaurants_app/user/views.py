@@ -6,7 +6,8 @@ from django.core.exceptions import ValidationError
 # Create your views here.
 from user.serializers import (GoogleSocialAuthClientSerializer,
                               GoogleSocialAuthRestaurantAdministratorSerializer,
-                              GoogleSocialAuthEmployeeSerializer
+                              GoogleSocialAuthEmployeeSerializer,
+                              GoogleSocialAuthBranchManagerSerializer
                               )
 from utilities.logger import Logger
 
@@ -50,6 +51,28 @@ class GoogleSocialAuthRestaurantAdministratorView(GenericAPIView):
 
 class GoogleSocialAuthEmployeeView(GenericAPIView):
     serializer_class = GoogleSocialAuthEmployeeSerializer
+
+    def post(self, request):
+        """
+        POST with "auth_token"
+        Send an idtoken as from google to get user information
+        """
+
+        try:
+            serializer = self.serializer_class(data=request.data)
+            Logger.debug(f'serializer: {serializer}')
+            serializer.is_valid(raise_exception=True)
+            data = serializer.validated_data
+
+        except ValidationError as e:
+            Logger.debug(f'ValidationError:{e}')
+            return Response(e)
+
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class GoogleSocialAuthBranchManagerView(GenericAPIView):
+    serializer_class = GoogleSocialAuthBranchManagerSerializer
 
     def post(self, request):
         """
