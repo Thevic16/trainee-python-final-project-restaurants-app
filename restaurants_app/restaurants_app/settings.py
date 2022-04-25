@@ -164,8 +164,21 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # DJANGO REST FRAMEWORK CONFIGURATIONS-----------------------------------------
 REST_FRAMEWORK = {
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+
+    # API Documentation
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+# MODEL USER ------------------------------------------------------------------
+# Set default user model
+AUTH_USER_MODEL = 'person.Person'
+
 
 # JWT -------------------------------------------------------------------------
 JWT_AUTH = {

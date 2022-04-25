@@ -1,4 +1,4 @@
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
 
 # Create your models here.
@@ -93,7 +93,7 @@ class UserManager(BaseUserManager):
 AUTH_PROVIDERS = {'google': 'google', 'email': 'email'}
 
 
-class Person(models.Model):
+class Person(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     password = models.EmailField(max_length=500)
