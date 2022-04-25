@@ -49,7 +49,7 @@ class GoogleSocialAuthRestaurantAdministratorSerializer(
             provider=provider, user_id=user_id,
             email=email, name=name,
             user_role='Restaurant Administrator',
-            restaurant_id=int(attrs.get('restaurant_id')), branch_id=None)
+            restaurant_id=attrs.get('restaurant_id'), branch_id=None)
 
 
 class GoogleSocialAuthEmployeeSerializer(
@@ -76,7 +76,7 @@ class GoogleSocialAuthEmployeeSerializer(
             provider=provider, user_id=user_id,
             email=email, name=name,
             user_role='Employee',
-            restaurant_id=None, branch_id=int(attrs.get('branch_id')))
+            restaurant_id=None, branch_id=attrs.get('branch_id'))
 
 
 class GoogleSocialAuthBranchManagerSerializer(
@@ -103,7 +103,7 @@ class GoogleSocialAuthBranchManagerSerializer(
             provider=provider, user_id=user_id,
             email=email, name=name,
             user_role='Branch Manager',
-            restaurant_id=None, branch_id=int(attrs.get('branch_id')))
+            restaurant_id=None, branch_id=attrs.get('branch_id'))
 
 
 class GoogleSocialAuthPortalManagerSerializer(
