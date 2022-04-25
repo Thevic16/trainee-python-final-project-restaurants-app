@@ -24,13 +24,17 @@ schema_view = get_swagger_view(title='Restaurant API')
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Dish Api
-    path('api/', include('dish.api.urls')),
+    path('api/', include('dish.urls')),
+
+    # Inventory Api
+    path('api/', include('inventory.urls')),
+
+    # Order Api
+    path('api/', include('order.urls')),
 
     # Restaurant Api
     path('api/', include('restaurant.urls')),
 
-    # Inventory Api
-    path('api/', include('inventory.api.urls')),
 
     # Order Api
     path('api/', include('order.urls')),

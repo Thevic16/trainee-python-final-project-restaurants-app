@@ -3,5 +3,8 @@ __pycache__
 .env
 .idea
 */migrations/*
+mysite.log
 api_design.json
+prueba.py
+.coverage
 

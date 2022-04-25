@@ -1,7 +1,10 @@
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from order import serializer
 from order import services
+from order.map import MapServices
 from order.models import ItemOrder, ItemType, Order, Status
 from order.validations import OrderValidator
 
@@ -39,3 +42,10 @@ class SendOrder(generics.UpdateAPIView):
 class ItemOrderView(generics.ListCreateAPIView):
     queryset = ItemOrder.objects.all()
     serializer_class = serializer.ItemOrderSerializer
+
+
+# Create your views here.
+class MenuDetail(ViewSet):
+    def retrieve(self, request, pk=None):
+        MapServices.request = request
+        return Response(MapServices.get_menu_map_dict_by_branch(pk))
