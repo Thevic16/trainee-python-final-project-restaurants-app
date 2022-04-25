@@ -15,7 +15,8 @@ class Status(models.Model):
 class Order(models.Model):
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    delivery_type = models.ForeignKey(Status, on_delete=models.CASCADE)
+    delivery_type = models.ForeignKey(Status, on_delete=models.CASCADE,
+                                      related_name='delivery_type_order')
     direction = models.CharField(max_length=120)
     client = models.ForeignKey(Person, on_delete=models.CASCADE)
     date = models.DateField()
@@ -33,8 +34,10 @@ class ItemType(models.Model):
 
 class ItemOrder(models.Model):
     quantity = models.IntegerField()
-    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
-    promotion = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE,
+                             related_name='dish_order')
+    promotion = models.ForeignKey(Dish, on_delete=models.CASCADE,
+                                  related_name='promotion_order')
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     item_type = models.ForeignKey(ItemType, on_delete=models.CASCADE)
 

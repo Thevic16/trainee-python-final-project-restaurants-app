@@ -26,11 +26,15 @@ urlpatterns = [
     # Dish Api
     path('api/', include('dish.urls')),
 
+    # Inventory Api
+    path('api/', include('inventory.urls')),
+
+    # Order Api
+    path('api/', include('order.urls')),
+
     # Restaurant Api
     path('api/', include('restaurant.urls')),
 
-    # Inventory Api
-    path('api/', include('inventory.urls')),
 
     # Swagger Documentation
     path('docs/', schema_view),

@@ -51,7 +51,9 @@ INSTALLED_APPS = [
     # Own
     'dish',
     'inventory',
+    'person',
     'restaurant',
+    'order',
 ]
 
 MIDDLEWARE = [

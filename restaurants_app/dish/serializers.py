@@ -57,6 +57,7 @@ class PromotionSerializer(serializers.ModelSerializer):
             'up_to',
             'dishes',
             'branches',
+            'restaurant',
         ]
 
     def get_uri(self, obj: models.Model, model_name: str):
