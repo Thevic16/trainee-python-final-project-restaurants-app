@@ -25,7 +25,7 @@ def authenticate(email: str, password: str):
 
 
 def register_social_user(provider: str, user_id: int, email: str, name: str,
-                         user_role: str):
+                         user_role: str, restaurant_id: int):
     filtered_user_by_email = User.objects.filter(email=email)
 
     if filtered_user_by_email.exists():
@@ -54,6 +54,9 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
 
         if user_role == 'Client':
             user = User.objects.create_client_user(**user)
+        if user_role == 'Restaurant Administrator':
+            user = User.objects.create_restaurant_administrator_user(**user)
+            user.set_restaurant(restaurant_id)
         else:
             user = User.objects.create_user(**user)
 

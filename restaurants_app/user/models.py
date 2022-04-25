@@ -1,12 +1,13 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 
-
 # Create your models here.
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from restaurant.models import Restaurant, Branch
 from utilities.logger import Logger
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.utils.translation import gettext_lazy as _
 
 
 class Role(models.Model):
@@ -26,7 +27,6 @@ class UserManager(BaseUserManager):
 
         user = self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
-        user.save()
         return user
 
     def create_superuser(self, username, email, password=None):
@@ -45,7 +45,33 @@ class UserManager(BaseUserManager):
 
         user = self.create_user(username, email, password)
         user.set_role('Client')
-        user.save()
+        return user
+
+    def create_employee_user(self, username, email, password=None):
+        if password is None:
+            raise TypeError('Password should not be none')
+
+        user = self.create_user(username, email, password)
+        user.set_role('Employee')
+        return user
+
+    def create_restaurant_administrator_user(self, username, email,
+                                             password=None):
+        if password is None:
+            raise TypeError('Password should not be none')
+
+        user = self.create_user(username, email, password)
+        user.set_role('Restaurant Administrator')
+        user.is_staff = True
+        return user
+
+    def create_employee_user(self, username, email, password=None):
+        if password is None:
+            raise TypeError('Password should not be none')
+
+        user = self.create_user(username, email, password)
+        user.set_role('Employee')
+        user.is_staff = True
         return user
 
 
@@ -92,6 +118,36 @@ class User(models.Model):
             self.role = role
         else:
             Logger.error(f"Role '{role_name}' do not exist in the database")
+
+    def set_restaurant(self, restaurant_id: int):
+        try:
+            restaurant = Restaurant.objects.get(id=restaurant_id)
+            self.restaurant = restaurant
+
+        except ObjectDoesNotExist:
+            Logger.error(f"Restaurant 'id: {restaurant_id}'"
+                         f" do not exist in the database")
+
+            raise ValidationError({'restaurant_id': _("Restaurant 'id:"
+                                                      f" {restaurant_id}'"
+                                                      " do not exist in the"
+                                                      " database")
+                                   }
+                                  )
+
+    def set_branch(self, branch_id: int):
+        try:
+            branch = Branch.objects.get(id=branch_id)
+            self.branch = branch
+        except ObjectDoesNotExist:
+            Logger.error(f"Branch 'id: {branch_id}'"
+                         f" do not exist in the database")
+            raise ValidationError({'branch_id': _("Branch 'id:"
+                                                  f" {branch_id}'"
+                                                  " do not exist in the"
+                                                  " database")
+                                   }
+                                  )
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
