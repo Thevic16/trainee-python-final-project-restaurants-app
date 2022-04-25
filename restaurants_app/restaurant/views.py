@@ -90,3 +90,12 @@ class PayMonthly(viewsets.ModelViewSet):
     def payments(self, request):
         serializer = serializers.PayGetSerializer(self.queryset, many=True)
         return Response(serializer.data, status=200)
+
+
+class BranchListView(generics.ListCreateAPIView):
+    queryset = models.Branch.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return serializers.BranchGetSerializer
+        return serializers.BranchPostSerializer

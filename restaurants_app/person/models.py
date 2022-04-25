@@ -16,8 +16,9 @@ class Person(models.Model):
     last_name = models.CharField(max_length=120)
     telephone = models.CharField(max_length=120)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(
+        Restaurant, on_delete=models.CASCADE, null=True)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} ({self.identification})'
