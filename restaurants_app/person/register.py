@@ -16,7 +16,7 @@ def generate_username(name):
 
 
 def authenticate(email: str, password: str):
-    user = Person.objects.filter(email=email).first()
+    user = Person.objects.filter(email=email, password=password).first()
 
     if user:
         return user
@@ -79,3 +79,14 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
             'role': new_user.role.name,
             'tokens': new_user.tokens()
         }
+
+
+def authenticate_portal_manager(email: str, password: str):
+    user = authenticate(email, password)
+
+    return {
+        'email': user.email,
+        'username': user.username,
+        'role': user.role.name,
+        'tokens': user.tokens()
+    }

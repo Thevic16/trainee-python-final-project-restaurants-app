@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from person import google
-from person.register import register_social_user
+from person.register import register_social_user, authenticate_portal_manager
 
 
 class GoogleSocialAuthClientSerializer(serializers.Serializer):
@@ -104,3 +104,15 @@ class GoogleSocialAuthBranchManagerSerializer(
             email=email, name=name,
             user_role='Branch Manager',
             restaurant_id=None, branch_id=int(attrs.get('branch_id')))
+
+
+class GoogleSocialAuthPortalManagerSerializer(
+    serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField(style={'input_type': 'password',
+                                            'placeholder': 'Password'})
+
+    def validate(self, attrs):
+        return authenticate_portal_manager(
+            email=attrs.get('email'), password=attrs.get('password'))
+

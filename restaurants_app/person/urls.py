@@ -2,7 +2,8 @@ from django.urls import path
 from person.views import (GoogleSocialAuthClientView,
                           GoogleSocialAuthRestaurantAdministratorView,
                           GoogleSocialAuthEmployeeView,
-                          GoogleSocialAuthBranchManagerView)
+                          GoogleSocialAuthBranchManagerView,
+                          GoogleSocialAuthPortalManagerView)
 
 urlpatterns = [
     path('google/clients/', GoogleSocialAuthClientView.as_view()),
@@ -12,4 +13,6 @@ urlpatterns = [
          GoogleSocialAuthEmployeeView.as_view()),
     path('google/branch-managers/',
          GoogleSocialAuthBranchManagerView.as_view()),
+    path('google/portal-managers/',
+         GoogleSocialAuthPortalManagerView.as_view()),
 ]
