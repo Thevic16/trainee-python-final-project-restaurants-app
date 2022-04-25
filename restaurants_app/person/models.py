@@ -75,6 +75,15 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         return user
 
+    def create_portal_manager_user(self, username, email, password=None):
+        if password is None:
+            raise TypeError('Password should not be none')
+
+        user = self.create_user(username, email, password)
+        user.set_role('Portal Manager')
+        user.is_staff = True
+        return user
+
 
 AUTH_PROVIDERS = {'google': 'google', 'email': 'email'}
 
