@@ -54,13 +54,13 @@ def register_social_user(provider: str, user_id: int, email: str, name: str,
 
         if user_role == 'Client':
             user = User.objects.create_client_user(**user)
-        if user_role == 'Restaurant Administrator':
+        elif user_role == 'Restaurant Administrator':
             user = User.objects.create_restaurant_administrator_user(**user)
             user.set_restaurant(restaurant_id)
-        if user_role == 'Employee':
+        elif user_role == 'Employee':
             user = User.objects.create_employee_user(**user)
             user.set_branch(branch_id)
-        if user_role == 'Branch Manager':
+        elif user_role == 'Branch Manager':
             user = User.objects.create_branch_manager_user(**user)
             user.set_branch(branch_id)
         else:
