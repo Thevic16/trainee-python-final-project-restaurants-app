@@ -1,7 +1,7 @@
 # Final Project - Restaurants APP.
 
 # Logic Diagram of the project.
-![Diagram](https://drive.google.com/file/d/190Bs1NMJHCNECN0isHGpkDf_ZmZmESqZ/view?usp=sharing)
+https://drive.google.com/file/d/190Bs1NMJHCNECN0isHGpkDf_ZmZmESqZ/view?usp=sharing
 
 # Instruction to run the app.
 
