@@ -1,7 +1,6 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-
 from order import serializer
 from order import services
 from order.map import MapServices
@@ -37,6 +36,11 @@ class SendOrder(generics.UpdateAPIView):
         OrderValidator.order_preparing(order)
         services.OrderServices().update_ingredients(order)
         return super().perform_update(serializer)
+
+
+class UpdateOrder(generics.RetrieveUpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = serializer.OrderSerializerUpdate
 
 
 class ItemOrderView(generics.ListCreateAPIView):
