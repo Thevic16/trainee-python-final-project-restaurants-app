@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from person import google
+from person.provider import Provider
 from person.register import register_social_user, authenticate_portal_manager
+import os
 
 
-class GoogleSocialAuthSerializer(serializers.Serializer):
+class SocialAuthSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
 
     def validate_auth_token(self, auth_token):
-        user_data = google.Google.validate(auth_token)
+        user_data = Provider.validate(auth_token)
         try:
             user_data['sub']
         except:
@@ -18,18 +19,18 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
         user_id = user_data['sub']
         email = user_data['email']
         name = user_data['name']
-        provider = 'google'
+        provider = os.environ.get('PROVIDER')
 
         return register_social_user(
             provider=provider, user_id=user_id, email=email, name=name,
             user_role=None, restaurant_id=None, branch_id=None)
 
 
-class GoogleSocialAuthClientSerializer(serializers.Serializer):
+class SocialAuthClientSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
 
     def validate_auth_token(self, auth_token):
-        user_data = google.Google.validate(auth_token)
+        user_data = Provider.validate(auth_token)
         try:
             user_data['sub']
         except:
@@ -40,21 +41,21 @@ class GoogleSocialAuthClientSerializer(serializers.Serializer):
         user_id = user_data['sub']
         email = user_data['email']
         name = user_data['name']
-        provider = 'google'
+        provider = os.environ.get('PROVIDER')
 
         return register_social_user(
             provider=provider, user_id=user_id, email=email, name=name,
             user_role='Client', restaurant_id=None, branch_id=None)
 
 
-class GoogleSocialAuthRestaurantAdministratorSerializer(
+class SocialAuthRestaurantAdministratorSerializer(
     serializers.Serializer):
     auth_token = serializers.CharField()
     restaurant_id = serializers.IntegerField(allow_null=True)
 
     def validate(self, attrs):
 
-        user_data = google.Google.validate(attrs.get('auth_token'))
+        user_data = Provider.validate(attrs.get('auth_token'))
         try:
             user_data['sub']
         except:
@@ -65,7 +66,7 @@ class GoogleSocialAuthRestaurantAdministratorSerializer(
         user_id = user_data['sub']
         email = user_data['email']
         name = user_data['name']
-        provider = 'google'
+        provider = os.environ.get('PROVIDER')
 
         return register_social_user(
             provider=provider, user_id=user_id,
@@ -74,14 +75,13 @@ class GoogleSocialAuthRestaurantAdministratorSerializer(
             restaurant_id=attrs.get('restaurant_id'), branch_id=None)
 
 
-class GoogleSocialAuthEmployeeSerializer(
-    serializers.Serializer):
+class SocialAuthEmployeeSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
     branch_id = serializers.IntegerField(allow_null=True)
 
     def validate(self, attrs):
 
-        user_data = google.Google.validate(attrs.get('auth_token'))
+        user_data = Provider.validate(attrs.get('auth_token'))
         try:
             user_data['sub']
         except:
@@ -92,7 +92,7 @@ class GoogleSocialAuthEmployeeSerializer(
         user_id = user_data['sub']
         email = user_data['email']
         name = user_data['name']
-        provider = 'google'
+        provider = os.environ.get('PROVIDER')
 
         return register_social_user(
             provider=provider, user_id=user_id,
@@ -101,14 +101,13 @@ class GoogleSocialAuthEmployeeSerializer(
             restaurant_id=None, branch_id=attrs.get('branch_id'))
 
 
-class GoogleSocialAuthBranchManagerSerializer(
-    serializers.Serializer):
+class SocialAuthBranchManagerSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
     branch_id = serializers.IntegerField(allow_null=True)
 
     def validate(self, attrs):
 
-        user_data = google.Google.validate(attrs.get('auth_token'))
+        user_data = Provider.validate(attrs.get('auth_token'))
         try:
             user_data['sub']
         except:
@@ -119,7 +118,7 @@ class GoogleSocialAuthBranchManagerSerializer(
         user_id = user_data['sub']
         email = user_data['email']
         name = user_data['name']
-        provider = 'google'
+        provider = os.environ.get('PROVIDER')
 
         return register_social_user(
             provider=provider, user_id=user_id,
@@ -128,8 +127,7 @@ class GoogleSocialAuthBranchManagerSerializer(
             restaurant_id=None, branch_id=attrs.get('branch_id'))
 
 
-class GoogleSocialAuthPortalManagerSerializer(
-    serializers.Serializer):
+class SocialAuthPortalManagerSerializer(serializers.Serializer):
     email = serializers.CharField()
     password = serializers.CharField(style={'input_type': 'password',
                                             'placeholder': 'Password'})

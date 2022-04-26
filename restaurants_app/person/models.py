@@ -122,11 +122,19 @@ class Person(AbstractBaseUser):
         self.password = password
 
     def set_role(self, role_name: str):
-        role = Role.objects.get(name=role_name)
-        if role:
+        try:
+            role = Role.objects.get(name=role_name)
             self.role = role
-        else:
+        except ObjectDoesNotExist:
             Logger.error(f"Role '{role_name}' do not exist in the database")
+            raise ValidationError({'role': _("Role 'name:"
+                                             f" {role_name}'"
+                                             " do not exist in the"
+                                             " database, run the"
+                                             " command to generete"
+                                             " all the roles")
+                                   }
+                                  )
 
     def set_restaurant(self, restaurant_id: int):
         try:

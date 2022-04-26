@@ -6,20 +6,20 @@ from rest_framework.exceptions import AuthenticationFailed
 
 # Create your views here.
 from person.permissions import IsRestaurantAdministrator, IsPortalManager
-from person.serializers import \
-    (GoogleSocialAuthClientSerializer,
-     GoogleSocialAuthRestaurantAdministratorSerializer,
-     GoogleSocialAuthEmployeeSerializer,
-     GoogleSocialAuthBranchManagerSerializer,
-     GoogleSocialAuthPortalManagerSerializer, GoogleSocialAuthSerializer
-     )
+from person.serializers import (SocialAuthClientSerializer,
+                                SocialAuthRestaurantAdministratorSerializer,
+                                SocialAuthEmployeeSerializer,
+                                SocialAuthBranchManagerSerializer,
+                                SocialAuthPortalManagerSerializer,
+                                SocialAuthSerializer
+                                )
 
 from utilities.logger import Logger
 
 
-class GoogleSocialAuthView(GenericAPIView):
+class SocialAuthView(GenericAPIView):
     permission_classes = []
-    serializer_class = GoogleSocialAuthSerializer
+    serializer_class = SocialAuthSerializer
 
     def post(self, request):
         """
@@ -29,13 +29,13 @@ class GoogleSocialAuthView(GenericAPIView):
 
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        data = ((serializer.validated_data)['auth_token'])
+        data = (serializer.validated_data['auth_token'])
         return Response(data, status=status.HTTP_200_OK)
 
 
-class GoogleSocialAuthClientView(GenericAPIView):
+class SocialAuthClientView(GenericAPIView):
     permission_classes = []
-    serializer_class = GoogleSocialAuthClientSerializer
+    serializer_class = SocialAuthClientSerializer
 
     def post(self, request):
         """
@@ -45,13 +45,13 @@ class GoogleSocialAuthClientView(GenericAPIView):
 
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        data = ((serializer.validated_data)['auth_token'])
+        data = (serializer.validated_data['auth_token'])
         return Response(data, status=status.HTTP_200_OK)
 
 
-class GoogleSocialAuthRestaurantAdministratorView(GenericAPIView):
+class SocialAuthRestaurantAdministratorView(GenericAPIView):
     permission_classes = [IsPortalManager]
-    serializer_class = GoogleSocialAuthRestaurantAdministratorSerializer
+    serializer_class = SocialAuthRestaurantAdministratorSerializer
 
     def post(self, request):
         """
@@ -72,9 +72,9 @@ class GoogleSocialAuthRestaurantAdministratorView(GenericAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class GoogleSocialAuthEmployeeView(GenericAPIView):
+class SocialAuthEmployeeView(GenericAPIView):
     permission_classes = [IsRestaurantAdministrator]
-    serializer_class = GoogleSocialAuthEmployeeSerializer
+    serializer_class = SocialAuthEmployeeSerializer
 
     def post(self, request):
         """
@@ -95,9 +95,9 @@ class GoogleSocialAuthEmployeeView(GenericAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class GoogleSocialAuthBranchManagerView(GenericAPIView):
+class SocialAuthBranchManagerView(GenericAPIView):
     permission_classes = [IsRestaurantAdministrator]
-    serializer_class = GoogleSocialAuthBranchManagerSerializer
+    serializer_class = SocialAuthBranchManagerSerializer
 
     def post(self, request):
         """
@@ -118,8 +118,8 @@ class GoogleSocialAuthBranchManagerView(GenericAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class GoogleSocialAuthPortalManagerView(GenericAPIView):
-    serializer_class = GoogleSocialAuthPortalManagerSerializer
+class SocialAuthPortalManagerView(GenericAPIView):
+    serializer_class = SocialAuthPortalManagerSerializer
 
     def post(self, request):
         """

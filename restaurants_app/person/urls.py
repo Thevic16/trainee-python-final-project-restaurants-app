@@ -1,20 +1,20 @@
 from django.urls import path
-from person.views import (GoogleSocialAuthClientView,
-                          GoogleSocialAuthRestaurantAdministratorView,
-                          GoogleSocialAuthEmployeeView,
-                          GoogleSocialAuthBranchManagerView,
-                          GoogleSocialAuthPortalManagerView,
-                          GoogleSocialAuthView)
+from person.views import (SocialAuthClientView,
+                          SocialAuthRestaurantAdministratorView,
+                          SocialAuthEmployeeView,
+                          SocialAuthBranchManagerView,
+                          SocialAuthPortalManagerView,
+                          SocialAuthView)
 
 urlpatterns = [
-    path('google/auth/', GoogleSocialAuthView.as_view()),
-    path('google/create/clients/', GoogleSocialAuthClientView.as_view()),
-    path('google/create/restaurant-administrators/',
-         GoogleSocialAuthRestaurantAdministratorView.as_view()),
-    path('google/create/employees/',
-         GoogleSocialAuthEmployeeView.as_view()),
-    path('google/create/branch-managers/',
-         GoogleSocialAuthBranchManagerView.as_view()),
-    path('google/create/portal-managers/',
-         GoogleSocialAuthPortalManagerView.as_view()),
+    path('persons/auth/', SocialAuthView.as_view()),
+    path('persons/clients/', SocialAuthClientView.as_view()),
+    path('persons/restaurant-administrators/',
+         SocialAuthRestaurantAdministratorView.as_view()),
+    path('persons/employees/',
+         SocialAuthEmployeeView.as_view()),
+    path('persons/branch-managers/',
+         SocialAuthBranchManagerView.as_view()),
+    path('persons/portal-managers/',
+         SocialAuthPortalManagerView.as_view()),
 ]

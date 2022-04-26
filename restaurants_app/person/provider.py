@@ -1,9 +1,10 @@
 from google.auth.transport import requests
 from google.oauth2 import id_token
+import os
 
 
-class Google:
-    """Google class to fetch the person info and return it"""
+class Provider:
+    """Provider class to fetch the person info and return it"""
 
     @staticmethod
     def validate(auth_token):
@@ -14,7 +15,7 @@ class Google:
             idinfo = id_token.verify_oauth2_token(
                 auth_token, requests.Request())
 
-            if 'accounts.google.com' in idinfo['iss']:
+            if os.environ.get('SOCIAL_ISS') in idinfo['iss']:
                 return idinfo
 
         except:
