@@ -3,8 +3,6 @@ from django.urls import path
 from order import views
 
 
-app_name = 'order'
-
 urlpatterns = [
     path('status/', views.StatusView.as_view()),
     path('item-types/', views.ItemTypeView.as_view()),
@@ -15,4 +13,3 @@ urlpatterns = [
     path('menus/<int:pk>/', views.MenuDetail.as_view({'get': 'retrieve'}),
          name='menu-detail'),
 ]
-

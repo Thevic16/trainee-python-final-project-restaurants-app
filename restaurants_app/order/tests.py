@@ -1,7 +1,5 @@
 import django
 
-django.setup()
-
 from django.test import TestCase
 from unittest.mock import patch, MagicMock
 from datetime import date
@@ -9,8 +7,14 @@ from datetime import date
 from dish.models import MenuCategory, Dish, Promotion
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from order.map import MapServices
-from restaurant.models import Restaurant, FoodType, PayType, Branch
+from order.models import ItemOrder, Order
+from restaurant.models import (
+    DeliveryType, Restaurant, FoodType, PayType, Branch)
+from person.models import Person, Role
+from order.services import OrderServices
 from utilities.logger import Logger
+
+django.setup()
 
 
 def fake_today():
@@ -168,6 +172,41 @@ class OrderAppTestCase(TestCase):
                                             branch=self.branch2)
         self.inventory2_branch2.save()
 
+        self.delivery_type1 = DeliveryType(type="pick-up")
+        self.delivery_type1.save()
+
+        self.role1 = Role(name="client")
+        self.role1.save()
+
+        self.person = Person(identification="12342314",
+                             first_name="Person1",
+                             last_name="Person1",
+                             telephone="1232313123",
+                             role=self.role1)
+        self.person.save()
+
+        # Create order for branch 1
+        self.order1 = Order(branch=self.branch1,
+                            delivery_type=self.delivery_type1,
+                            direction="Cr 5 # 15 - 25",
+                            client=self.person)
+        self.order1.save()
+
+        self.item_order1 = ItemOrder(quantity=3,
+                                     dish=self.dish1,
+                                     order=self.order1)
+        self.item_order1.save()
+
+        self.item_order2 = ItemOrder(quantity=2,
+                                     dish=self.dish2,
+                                     order=self.order1)
+        self.item_order2.save()
+
+        self.item_order3 = ItemOrder(quantity=1,
+                                     dish=self.dish3,
+                                     order=self.order1)
+        self.item_order3.save()
+
     @patch('order.map.get_uri')
     @patch('order.services.date')
     def test_get_menu_map_dict_by_branch_case_1(self, mock_date, mock_get_uri):
@@ -243,3 +282,51 @@ class OrderAppTestCase(TestCase):
         self.assertEqual(menu_dict,
                          MapServices.get_menu_map_dict_by_branch(
                              self.branch4.id))
+
+    def test_update_ingredients(self):
+        order = self.order1
+        ingredient3 = Inventory.objects.get(id=self.inventory1_branch2.id)
+        ingredient4 = Inventory.objects.get(id=self.inventory2_branch2.id)
+        OrderServices.update_ingredients(
+            order_id=order.id,
+            branch_id=order.branch_id
+        )
+        ingredient1 = Inventory.objects.get(id=self.inventory1_branch1.id)
+        ingredient2 = Inventory.objects.get(id=self.inventory2_branch1.id)
+        ingredient3_b = Inventory.objects.get(id=self.inventory1_branch2.id)
+        ingredient4_b = Inventory.objects.get(id=self.inventory2_branch2.id)
+        self.assertEqual(ingredient1.availability, 40)
+        self.assertEqual(ingredient2.availability, 70)
+        self.assertEqual(ingredient3, ingredient3_b)
+        self.assertEqual(ingredient4, ingredient4_b)
+        ingredient1.availability = 100
+        ingredient1.save()
+        ingredient2.availability = 100
+        ingredient2.save()
+
+    def test_update_ingredients_promotion(self):
+        order2 = Order(branch=self.branch1,
+                       delivery_type=self.delivery_type1,
+                       direction="Cr 5 # 15 - 25",
+                       client=self.person)
+        order2.save()
+        item_order4 = ItemOrder(quantity=2,
+                                promotion=self.promotion1,
+                                order=order2)
+        item_order4.save()
+        item_order5 = ItemOrder(quantity=1,
+                                dish=self.dish2,
+                                order=order2)
+        item_order5.save()
+        OrderServices.update_ingredients(
+            order_id=order2.id,
+            branch_id=order2.branch_id
+        )
+        ingredient1 = Inventory.objects.get(id=self.inventory1_branch1.id)
+        ingredient2 = Inventory.objects.get(id=self.inventory2_branch1.id)
+        self.assertEqual(ingredient1.availability, 30)
+        self.assertEqual(ingredient2.availability, 80)
+        ingredient1.availability = 100
+        ingredient1.save()
+        ingredient2.availability = 100
+        ingredient2.save()

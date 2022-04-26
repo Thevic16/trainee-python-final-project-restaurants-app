@@ -1,11 +1,9 @@
 from datetime import date
-import itertools
 
 from dish.models import Dish, Promotion, MenuCategory
 from inventory.models import Recipe, Inventory
 from order.models import ItemOrder
 from restaurant.models import Branch
-
 
 
 class OrderServices:
@@ -18,34 +16,32 @@ class OrderServices:
     def get_dishes_from_promotion(promotion):
         return promotion.dishes.all()
 
-    @classmethod
-    def get_all_dishes(cls, order_id: int):
-        items = cls.get_items_order(order_id)
-        dishes = [[item.dish]
-                  if item.dish
-                  else cls.get_dishes_from_promotion(item.promotion)
-                  for item in items]
-        return list(itertools.chain.from_iterable(dishes))
-
-    @classmethod
-    def get_total_recipes(cls, order_id: int):
-        dishes = cls.get_all_dishes(order_id)
-        recipes = list(itertools.chain.from_iterable(
-            [dish.recipe_set.all() for dish in dishes]
-        ))
-        return recipes
-
     @staticmethod
     def get_inventory(recipe, branch_id: int):
         return recipe.ingredient.inventory_set.filter(branch_id=branch_id).first()  # noqa 501
 
     @classmethod
-    def update_ingredients(cls, order_id: int, branch_id: int):
-        recipes = cls.get_total_recipes(order_id)
+    def update_inventory(cls, recipes, branch_id, item_quantity):
         for recipe in recipes:
+            recipe_quantity = recipe.quantity
             inventory = cls.get_inventory(recipe, branch_id)
-            inventory.availability -= recipe.quantity
+            inventory.availability -= (recipe_quantity * item_quantity)
             inventory.save()
+
+    @classmethod
+    def update_ingredients(cls, order_id: int, branch_id: int):
+        items = cls.get_items_order(order_id)
+        for item in items:
+            item_quantity = item.quantity
+            if item.promotion:
+                dishes = cls.get_dishes_from_promotion(item.promotion)
+                for dish in dishes:
+                    recipes = dish.recipe_set.all()
+                    cls.update_inventory(recipes, branch_id, item_quantity)
+                continue
+            dish = item.dish
+            recipes = dish.recipe_set.all()
+            cls.update_inventory(recipes, branch_id, item_quantity)
 
 
 class MenuServices:
