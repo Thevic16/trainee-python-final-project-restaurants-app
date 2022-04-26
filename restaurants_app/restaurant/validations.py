@@ -38,6 +38,8 @@ class PayDayValidator:
 
 class PayValidator:
     """Validations for pay operation"""
+
+    @staticmethod
     def valid_month(month: int):
         if month > 12:
             raise errors.MonthLte12

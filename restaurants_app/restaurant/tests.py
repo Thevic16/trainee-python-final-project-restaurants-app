@@ -4,10 +4,13 @@ from datetime import date
 from dish.models import MenuCategory, Dish, Promotion
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from order.models import ItemOrder, Order
+from restaurant import errors
 from restaurant.models import (
     DeliveryType, Pay, Restaurant, FoodType, PayType, Branch)
 from person.models import Person, Role
 from restaurant.services import PayServices
+from restaurant.validations import (
+    PayDayValidator, PayValidator, RestaurantValidator)
 
 
 class RestaurantAPPTestCase(TestCase):
@@ -191,7 +194,7 @@ class RestaurantAPPTestCase(TestCase):
                                      order=self.order1)
         self.item_order3.save()
 
-    def test_commission_pay(self):
+    def test_commission_pay_case1(self):
         pay_before = len(Pay.objects.all())
         pay = PayServices.commission_pay(self.item_order1, self.order1)
         pay_after = len(Pay.objects.all())
@@ -199,7 +202,7 @@ class RestaurantAPPTestCase(TestCase):
         self.assertEqual(30, pay.pay)
         pay.delete()
 
-    def test_commission_pay_promotion(self):
+    def test_commission_pay_case2(self):
         order2 = Order(branch=self.branch1,
                        delivery_type=self.delivery_type1,
                        direction="Cr 5 # 15 - 25",
@@ -215,3 +218,45 @@ class RestaurantAPPTestCase(TestCase):
         self.assertEqual(pay_before+1, pay_after)
         self.assertEqual(20, pay.pay)
         pay.delete()
+
+    def test_monthtly_pay_case1(self):
+        pay_before = len(Pay.objects.all())
+        pay = PayServices.monthtly_pay(
+            restaurant_id=self.restaurant.id,
+            month_payed=1
+        )
+        pay_after = len(Pay.objects.all())
+        self.assertEqual(pay.pay, 50)
+        self.assertEqual(pay_before+1, pay_after)
+        pay.delete()
+
+    def test_commission_monthly_method_case1(self):
+        with self.assertRaises(errors.NotCommissionGivenError):
+            RestaurantValidator.commission_monthly_method(
+                commission=None,
+                pay_type="commission"
+            )
+
+    def test_commission_bte_0_100_case1(self):
+        with self.assertRaises(errors.NotCommissionBte0And100):
+            RestaurantValidator.commission_bte_0_100(
+                commission=120
+            )
+
+    def test_commission_bte_0_100_case2(self):
+        with self.assertRaises(errors.NotCommissionBte0And100):
+            RestaurantValidator.commission_bte_0_100(
+                commission=-10
+            )
+
+    def test_pay_day_lt_15_case1(self):
+        with self.assertRaises(errors.PayDayLte15):
+            PayDayValidator.pay_day_lt_15(20)
+
+    def test_monthly_restaurant_case1(self):
+        with self.assertRaises(errors.RestaurantMustBeMonthly):
+            PayDayValidator.monthly_restaurant('commission')
+
+    def test_pay_validator_case1(self):
+        with self.assertRaises(errors.MonthLte12):
+            PayValidator.valid_month(15)
