@@ -287,10 +287,7 @@ class OrderAppTestCase(TestCase):
         order = self.order1
         ingredient3 = Inventory.objects.get(id=self.inventory1_branch2.id)
         ingredient4 = Inventory.objects.get(id=self.inventory2_branch2.id)
-        OrderServices.update_ingredients(
-            order_id=order.id,
-            branch_id=order.branch_id
-        )
+        OrderServices.update_ingredients(order)
         ingredient1 = Inventory.objects.get(id=self.inventory1_branch1.id)
         ingredient2 = Inventory.objects.get(id=self.inventory2_branch1.id)
         ingredient3_b = Inventory.objects.get(id=self.inventory1_branch2.id)
@@ -318,10 +315,7 @@ class OrderAppTestCase(TestCase):
                                 dish=self.dish2,
                                 order=order2)
         item_order5.save()
-        OrderServices.update_ingredients(
-            order_id=order2.id,
-            branch_id=order2.branch_id
-        )
+        OrderServices.update_ingredients(order2)
         ingredient1 = Inventory.objects.get(id=self.inventory1_branch1.id)
         ingredient2 = Inventory.objects.get(id=self.inventory2_branch1.id)
         self.assertEqual(ingredient1.availability, 30)
