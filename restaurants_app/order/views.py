@@ -35,8 +35,13 @@ class SendOrder(generics.UpdateAPIView):
     def perform_update(self, serializer):
         order = self.get_object()
         OrderValidator.order_preparing(order)
-        services.OrderServices().update_ingredients(order.id, order.branch_id)
+        services.OrderServices().update_ingredients(order)
         return super().perform_update(serializer)
+
+
+class UpdateOrder(generics.RetrieveUpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = serializer.OrderSerializerUpdate
 
 
 class ItemOrderView(generics.ListCreateAPIView):

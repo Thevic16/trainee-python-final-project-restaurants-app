@@ -63,6 +63,6 @@ class PayDay(models.Model):
 class Pay(models.Model):
     pay = models.FloatField()
     date = models.DateTimeField(auto_now_add=True)
-    month_payed = models.PositiveSmallIntegerField()
+    month_payed = models.PositiveSmallIntegerField(null=True)
     pay_type = models.ForeignKey(PayType, on_delete=models.PROTECT)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
