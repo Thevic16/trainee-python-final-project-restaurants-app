@@ -23,8 +23,9 @@ class SocialAuthView(GenericAPIView):
 
     def post(self, request):
         """
-        POST with "auth_token"
-        Send an idtoken as from google to get person information
+        An endpoint that allows authenticating a person with the HTTP method
+         post, based on a google token. Everybody has permission to access
+          this resource.
         """
 
         serializer = self.serializer_class(data=request.data)
@@ -36,13 +37,13 @@ class SocialAuthView(GenericAPIView):
 class SocialAuthClientView(GenericAPIView):
     permission_classes = []
     serializer_class = SocialAuthClientSerializer
+    """
+    An endpoint that allows using of the HTTP method post to create with
+     the person with the client role. Everybody has permission to access
+      this resource.
+    """
 
     def post(self, request):
-        """
-        POST with "auth_token"
-        Send an idtoken as from google to get person information
-        """
-
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = (serializer.validated_data['auth_token'])
@@ -52,13 +53,13 @@ class SocialAuthClientView(GenericAPIView):
 class SocialAuthRestaurantAdministratorView(GenericAPIView):
     permission_classes = [IsPortalManager]
     serializer_class = SocialAuthRestaurantAdministratorSerializer
+    """
+    An endpoint that allows using of the HTTP method post to create with
+     the person with the restaurant role. Only the portal manager role
+      has permission to access this resource.
+    """
 
     def post(self, request):
-        """
-        POST with "auth_token"
-        Send an idtoken as from google to get person information
-        """
-
         try:
             serializer = self.serializer_class(data=request.data)
             Logger.debug(f'serializer: {serializer}')
@@ -75,13 +76,12 @@ class SocialAuthRestaurantAdministratorView(GenericAPIView):
 class SocialAuthEmployeeView(GenericAPIView):
     permission_classes = [IsRestaurantAdministrator]
     serializer_class = SocialAuthEmployeeSerializer
-
+    """
+    An endpoint that allows using of the HTTP method post to create with
+     the person with the employees role. Only the restaurant-administrators
+      role has permission to access this resource.
+    """
     def post(self, request):
-        """
-        POST with "auth_token"
-        Send an idtoken as from google to get person information
-        """
-
         try:
             serializer = self.serializer_class(data=request.data)
             Logger.debug(f'serializer: {serializer}')
@@ -96,15 +96,16 @@ class SocialAuthEmployeeView(GenericAPIView):
 
 
 class SocialAuthBranchManagerView(GenericAPIView):
+    """
+    An endpoint that allows using of the HTTP method post to retrieve the token
+     of the portal manager user (remember first run the command to generate the
+      portal manager user). Everybody has permission to access this resource,
+       however you have to know the credentials to access it.
+    """
     permission_classes = [IsRestaurantAdministrator]
     serializer_class = SocialAuthBranchManagerSerializer
 
     def post(self, request):
-        """
-        POST with "auth_token"
-        Send an idtoken as from google to get person information
-        """
-
         try:
             serializer = self.serializer_class(data=request.data)
             Logger.debug(f'serializer: {serializer}')
@@ -120,13 +121,14 @@ class SocialAuthBranchManagerView(GenericAPIView):
 
 class SocialAuthPortalManagerView(GenericAPIView):
     serializer_class = SocialAuthPortalManagerSerializer
+    """
+    An endpoint that allows using of the HTTP method post to retrieve the
+     token of the portal manager user (remember first run the command to 
+     generate the portal manager user). Everybody has permission to access
+      this resource, however you have to know the credentials to access it.
+    """
 
     def post(self, request):
-        """
-        POST with "auth_token"
-        Send an idtoken as from google to get person information
-        """
-
         try:
             serializer = self.serializer_class(data=request.data)
             Logger.debug(f'serializer: {serializer}')

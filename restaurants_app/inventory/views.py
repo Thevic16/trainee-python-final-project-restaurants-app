@@ -12,6 +12,11 @@ from rest_framework import generics, mixins
 
 # Views Unit
 class UnitList(mixins.CreateModelMixin, generics.ListAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and delete
+     to interact with the unit information. Only the restaurant administrator
+     role has permission to access these resources.
+    """
     permission_classes = [IsRestaurantAdministrator]
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
@@ -25,6 +30,11 @@ class UnitList(mixins.CreateModelMixin, generics.ListAPIView):
 
 class UnitDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
                  generics.RetrieveAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and delete
+     to interact with the unit information. Only the restaurant administrator
+     role has permission to access these resources.
+    """
     permission_classes = [IsRestaurantAdministrator]
     serializer_class = UnitSerializer
     queryset = Unit.objects.all()
@@ -41,6 +51,11 @@ class UnitDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 
 # Ingredient views
 class IngredientList(mixins.CreateModelMixin, generics.ListAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and
+     delete to interact with the ingredient information. Only the restaurant
+      administrator role has permission to access these resources.
+      """
     permission_classes = [IsRestaurantAdministrator]
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
@@ -55,6 +70,11 @@ class IngredientList(mixins.CreateModelMixin, generics.ListAPIView):
 class IngredientDetail(mixins.UpdateModelMixin,
                        mixins.DestroyModelMixin,
                        generics.RetrieveAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and
+     delete to interact with the ingredient information. Only the restaurant
+      administrator role has permission to access these resources.
+      """
     permission_classes = [IsRestaurantAdministrator]
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()
@@ -71,6 +91,11 @@ class IngredientDetail(mixins.UpdateModelMixin,
 
 # Recipe views
 class RecipeList(mixins.CreateModelMixin, generics.ListAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and delete
+     to interact with the recipes' information. Only the restaurant
+     administrator role has permission to access these resources.
+    """
     permission_classes = [IsRestaurantAdministrator]
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
@@ -89,6 +114,11 @@ class RecipeList(mixins.CreateModelMixin, generics.ListAPIView):
 class RecipeDetail(mixins.UpdateModelMixin,
                    mixins.DestroyModelMixin,
                    generics.RetrieveAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and delete
+     to interact with the recipes' information. Only the restaurant
+     administrator role has permission to access these resources.
+    """
     permission_classes = [IsRestaurantAdministrator]
     serializer_class = RecipeSerializer
     queryset = Recipe.objects.all()
@@ -117,6 +147,11 @@ class RecipeDetail(mixins.UpdateModelMixin,
 
 # Inventory views
 class InventoryList(mixins.CreateModelMixin, generics.ListAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and delete
+    to interact with the inventory information. Only the branch manager role
+    has permission to access these resources.
+    """
     permission_classes = [IsBranchManager]
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
@@ -135,6 +170,11 @@ class InventoryList(mixins.CreateModelMixin, generics.ListAPIView):
 class InventoryDetail(mixins.UpdateModelMixin,
                       mixins.DestroyModelMixin,
                       generics.RetrieveAPIView):
+    """
+    An endpoint that allows using the HTTP methods get, post, put, and delete
+    to interact with the inventory information. Only the branch manager role
+    has permission to access these resources.
+    """
     permission_classes = [IsBranchManager]
     serializer_class = InventorySerializer
     queryset = Inventory.objects.all()
