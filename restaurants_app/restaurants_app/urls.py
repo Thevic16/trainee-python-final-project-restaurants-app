@@ -39,6 +39,9 @@ urlpatterns = [
     path('api/', include('restaurant.urls')),
 
 
+    # Order Api
+    path('api/', include('order.urls')),
+
     # Swagger Documentation
     path('docs/', schema_view),
 ]

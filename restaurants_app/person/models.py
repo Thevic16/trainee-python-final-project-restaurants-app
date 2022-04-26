@@ -2,17 +2,11 @@ from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
 
 # Create your models here.
-import datetime
 from restaurant.models import Restaurant, Branch
 from utilities.logger import Logger
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
-from rest_framework_jwt.settings import api_settings
-from django.utils import timezone
-
-jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-expire_delta = api_settings.JWT_REFRESH_EXPIRATION_DELTA
+from person.services import TokenServices
 
 
 class Role(models.Model):
@@ -164,18 +158,8 @@ class Person(AbstractBaseUser):
                                    }
                                   )
 
-    def get_token(self):  # instance of the model
-        payload = jwt_payload_handler(self)
-        token = jwt_encode_handler(payload)
-        return token
-
-    def get_expires(self):
-        return timezone.now() + expire_delta - datetime.timedelta(seconds=7200)
-
     def tokens(self):
         return {
-            'token': self.get_token(),
-            'expires': self.get_expires()
+            'token': TokenServices.get_token(self),
+            'expires': TokenServices.get_expires()
         }
-
-

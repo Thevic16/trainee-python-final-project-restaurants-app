@@ -13,4 +13,5 @@ urlpatterns = [
     path('pay-days/<int:pk>', views.PayDayDetail.as_view()),
     path('pay-monthly/',
          views.PayMonthly.as_view({'post': 'pay_monthly', 'get': 'payments'})),
+    path('branches', views.BranchListView.as_view()),
 ]
