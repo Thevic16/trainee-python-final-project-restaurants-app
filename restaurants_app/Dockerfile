@@ -16,4 +16,8 @@ RUN pip install -r requirements.txt
 COPY . .
 RUN pip install -e .
 
+# Local
 CMD gunicorn restaurants_app.wsgi:application --bind 0.0.0.0:8000
+
+# Deploy
+# CMD gunicorn restaurants_app.wsgi:application --bind 0.0.0.0:$PORT

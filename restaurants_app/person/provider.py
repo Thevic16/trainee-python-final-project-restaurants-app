@@ -18,6 +18,7 @@ class Provider:
             if os.environ.get('SOCIAL_ISS') in idinfo['iss']:
                 return idinfo
 
-        except:
+        except KeyError:
             return "The token is either invalid or has expired"
-        
+        except TypeError:
+            return "The token is either invalid or has expired"

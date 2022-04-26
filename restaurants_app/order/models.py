@@ -54,4 +54,3 @@ class ItemOrder(models.Model):
 
     def __str__(self):
         return f"Item {self.id} from order {self.order.id}"
-

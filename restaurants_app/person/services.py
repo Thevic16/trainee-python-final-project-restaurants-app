@@ -1,4 +1,6 @@
 import datetime
+import os
+
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
 
@@ -9,7 +11,7 @@ expire_delta = api_settings.JWT_REFRESH_EXPIRATION_DELTA
 
 class TokenServices:
     @staticmethod
-    def get_token(person: "Person"):  # instance of the model
+    def get_token(person):  # instance of the model
         payload = jwt_payload_handler(person)
         token = jwt_encode_handler(payload)
         return token
@@ -17,4 +19,4 @@ class TokenServices:
     @staticmethod
     def get_expires():
         return timezone.now() + expire_delta - datetime.timedelta(
-            seconds=7200)
+            seconds=int(os.environ.get('EXPIRES_TIME_SECONDS')))

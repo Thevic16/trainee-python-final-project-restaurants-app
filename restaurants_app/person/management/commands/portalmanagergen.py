@@ -24,7 +24,7 @@ def create_portal_manager(username: str, email: str, password: str):
                                                          )
         user.is_verified = True
         user.save()
-        Logger.info(f"Portal Manager has been created")
+        Logger.info("Portal Manager has been created")
 
 
 class Command(BaseCommand):

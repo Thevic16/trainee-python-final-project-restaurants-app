@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 import datetime
 from pathlib import Path
+
+import dj_database_url
 import environ
 
 # Initialize environ ----------------------------------------------------------
@@ -25,12 +27,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7_v7)39-z#n9u7vqb2+ag^vjtk_uexr^_7g)j*hv$dlldwy2iy'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+# DEBUG -----------------------------------------------------------------------
+if env('DEBUG_STATE') == 'True':
+    DEBUG = True
+if env('DEBUG_STATE') == 'False':
+    DEBUG = False
+
+
+# ALLOWED_HOSTS ---------------------------------------------------------------
+hosts = env('ALLOWED_HOST').split(",")
+ALLOWED_HOSTS = [hosts[0], hosts[1]]
+
 
 # Application definition
 
@@ -94,16 +105,23 @@ WSGI_APPLICATION = 'restaurants_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASS'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT'),
+if env('DATABASE_STATE') == 'Local':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('DATABASE_NAME'),
+            'USER': env('DATABASE_USER'),
+            'PASSWORD': env('DATABASE_PASS'),
+            'HOST': env('DATABASE_HOST'),
+            'PORT': env('DATABASE_PORT'),
+        }
     }
-}
+elif env('DATABASE_STATE') == 'Deploy':
+
+    db_from_env = dj_database_url.config(default=env('DATABASE_URL'),
+                                         conn_max_age=500, ssl_require=True)
+    DATABASES = {'default': db_from_env}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -199,7 +217,9 @@ JWT_AUTH = {
         'utilities.auxiliaries.jwt_response_payload_handler',
 
     'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=int(
+
+        env('JWT_REFRESH_EXPIRATION_DELTA'))),
 
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_AUTH_COOKIE': None,

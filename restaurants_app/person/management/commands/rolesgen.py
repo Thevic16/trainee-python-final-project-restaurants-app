@@ -9,7 +9,8 @@ from utilities.logger import Logger
 def create_role(name: str):
     try:
         created_role = Role.objects.get(name=name)
-        Logger.info(f"Role '{name}' already exist in the database")
+        Logger.info(f"Role '{created_role.name}' already exist in the"
+                    " database")
     except ObjectDoesNotExist:
         Role.objects.create(name=name)
         Logger.info(f"Role '{name}' has been created")

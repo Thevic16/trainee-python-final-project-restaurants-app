@@ -53,7 +53,7 @@ def recipe_model_pre_save_receiver(sender, instance, *args, **kwargs):
             dish__id=instance.dish.id).count(),
                                    'ingredient', 'recipe')
 
-        Logger.info(f'Create recipe first time, will be necessary to validate')
+        Logger.info('Create recipe first time, will be necessary to validate')
 
 
 pre_save.connect(recipe_model_pre_save_receiver, sender=Recipe)
@@ -81,8 +81,8 @@ def inventory_model_pre_save_receiver(sender, instance, *args, **kwargs):
             branch__id=instance.branch.id).count(),
                                    'ingredient', 'branch')
 
-        Logger.info(f'Create inventory first time, will be necessary to'
-                    f' validate')
+        Logger.info('Create inventory first time, will be necessary to'
+                    ' validate')
 
 
 pre_save.connect(inventory_model_pre_save_receiver, sender=Inventory)
