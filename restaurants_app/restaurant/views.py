@@ -2,6 +2,7 @@ from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from person import permissions
 from restaurant import models
 from restaurant import serializers
 from restaurant.services import PayServices
@@ -67,6 +68,7 @@ class PayDayDetail(PayDay, generics.RetrieveUpdateDestroyAPIView):
 
 
 class PayMonthly(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsRestaurantAdministrator]
     serializer_class = serializers.PaySerializer
     queryset = models.Pay.objects.all()
 
@@ -87,6 +89,7 @@ class PayMonthly(viewsets.ModelViewSet):
 
 
 class BranchListView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsRestaurantAdministrator]
     queryset = models.Branch.objects.all()
 
     def get_serializer_class(self):
