@@ -1,5 +1,6 @@
+from order.services import OrderServices
+from order.models import ItemOrder, Order
 import django
-
 
 
 django.setup()  # If the setup is not executed here Django throws an error when
@@ -13,12 +14,10 @@ from django.test import TestCase  # noqa: E402
 
 from dish.models import MenuCategory, Dish, Promotion  # noqa: E402
 from inventory.models import Unit, Ingredient, Recipe, Inventory  # noqa: E402
-from person.models import Person, Role
+from person.models import Person, Role  # noqa: E402
 from order.map import MapServices  # noqa: E402
-from order.models import ItemOrder, Order
-from order.services import OrderServices
-from restaurant.models import (
-    DeliveryType, Restaurant, FoodType, PayType, Branch)  # noqa: E402
+from restaurant.models import (  # noqa: E402
+    DeliveryType, Restaurant, FoodType, PayType, Branch)
 from utilities.logger import Logger  # noqa: E402
 
 
@@ -184,10 +183,8 @@ class OrderAppTestCase(TestCase):
         self.role1 = Role(name="client")
         self.role1.save()
 
-        self.person = Person(identification="12342314",
-                             first_name="Person1",
-                             last_name="Person1",
-                             telephone="1232313123",
+        self.person = Person(username="Person1",
+                             email="person1@person1df.com",
                              role=self.role1)
         self.person.save()
 

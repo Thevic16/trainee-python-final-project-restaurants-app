@@ -165,10 +165,8 @@ class RestaurantAPPTestCase(TestCase):
         self.role1 = Role(name="client")
         self.role1.save()
 
-        self.person = Person(identification="12342314",
-                             first_name="Person1",
-                             last_name="Person1",
-                             telephone="1232313123",
+        self.person = Person(username="Person1",
+                             email="person1@persondf.com",
                              role=self.role1)
         self.person.save()
 
