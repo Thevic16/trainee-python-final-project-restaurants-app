@@ -7,4 +7,5 @@ mysite.log
 api_design.json
 prueba.py
 .coverage
+htmlcov/
 

@@ -36,8 +36,9 @@ def validate_date1_low_date2(date1: date, date2: date, field_date1: str,
     Raises:
         ValidationError: date2 has to be after the date1
     """
-    if date1 > date2:
-        raise ValidationError({field_date2: _('This date has to be'
-                                              f' after the {field_date1}')
-                               }
-                              )
+    if date1 and date2:
+        if date1 > date2:
+            raise ValidationError({field_date2: _('This date has to be'
+                                                  f' after the {field_date1}')
+                                   }
+                                  )

@@ -1,20 +1,25 @@
 import django
 
-from django.test import TestCase
-from unittest.mock import patch, MagicMock
-from datetime import date
 
-from dish.models import MenuCategory, Dish, Promotion
-from inventory.models import Unit, Ingredient, Recipe, Inventory
-from order.map import MapServices
-from order.models import ItemOrder, Order
-from restaurant.models import (
-    DeliveryType, Restaurant, FoodType, PayType, Branch)
+
+django.setup()  # If the setup is not executed here Django throws an error when
+# loading the models
+
+# The django.setup() produce the E402
+from datetime import date  # noqa: E402
+from unittest.mock import patch, MagicMock  # noqa: E402
+
+from django.test import TestCase  # noqa: E402
+
+from dish.models import MenuCategory, Dish, Promotion  # noqa: E402
+from inventory.models import Unit, Ingredient, Recipe, Inventory  # noqa: E402
 from person.models import Person, Role
+from order.map import MapServices  # noqa: E402
+from order.models import ItemOrder, Order
 from order.services import OrderServices
-from utilities.logger import Logger
-
-django.setup()
+from restaurant.models import (
+    DeliveryType, Restaurant, FoodType, PayType, Branch)  # noqa: E402
+from utilities.logger import Logger  # noqa: E402
 
 
 def fake_today():
@@ -58,7 +63,8 @@ class OrderAppTestCase(TestCase):
 
         # Create branches
         self.branch1 = Branch(restaurant=self.restaurant,
-                              direction='Test direction 1')
+                              direction='Test direction 1'
+                              )
         self.branch1.save()
         self.branch2 = Branch(restaurant=self.restaurant,
                               direction='Test direction 2')

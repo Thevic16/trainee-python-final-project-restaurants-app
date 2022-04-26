@@ -2,7 +2,6 @@ from dataclasses import dataclass
 
 from order.services import MenuServices
 from utilities.auxiliaries import get_uri
-from utilities.logger import Logger
 from dataclasses import asdict
 
 

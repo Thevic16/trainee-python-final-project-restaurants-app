@@ -6,7 +6,6 @@ from order.models import ItemOrder
 from restaurant.models import Branch
 from restaurant.services import PayServices
 
-
 class OrderServices:
 
     @staticmethod
@@ -119,7 +118,10 @@ class MenuServices:
         promotion = Promotion.objects.get(id=promotion_id)
         today = date.today()
 
-        if promotion.since_date <= today <= promotion.up_to:
+        if promotion.since_date and promotion.up_to:
+            if promotion.since_date <= today <= promotion.up_to:
+                return True
+        else:
             return True
 
         return False
