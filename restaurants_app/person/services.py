@@ -1,4 +1,6 @@
 import datetime
+import os
+
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
 
@@ -17,4 +19,4 @@ class TokenServices:
     @staticmethod
     def get_expires():
         return timezone.now() + expire_delta - datetime.timedelta(
-            seconds=7200)
+            seconds=int(os.environ.get('EXPIRES_TIME_SECONDS')))

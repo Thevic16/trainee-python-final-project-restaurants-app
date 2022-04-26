@@ -19,6 +19,7 @@ boto3 = "*"
 django-rest-swagger = "*"
 google-api-core = "*"
 djangorestframework-jwt = "*"
+dj-database-url = "*"
 
 [dev-packages]
 flake8 = "*"
