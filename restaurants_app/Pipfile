@@ -17,6 +17,8 @@ django-storages = "*"
 pillow = "*"
 boto3 = "*"
 django-rest-swagger = "*"
+google-api-core = "*"
+djangorestframework-jwt = "*"
 
 [dev-packages]
 flake8 = "*"

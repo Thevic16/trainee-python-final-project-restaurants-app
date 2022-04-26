@@ -9,7 +9,8 @@ from datetime import date
 from dish.models import MenuCategory, Dish, Promotion
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from order.map import MapServices
-from restaurant.models import Restaurant, FoodType, PayType, Branch
+from restaurant.models import Restaurant, FoodType, PayType, Branch, \
+    DeliveryType
 from utilities.logger import Logger
 
 
@@ -54,7 +55,8 @@ class OrderAppTestCase(TestCase):
 
         # Create branches
         self.branch1 = Branch(restaurant=self.restaurant,
-                              direction='Test direction 1')
+                              direction='Test direction 1'
+                              )
         self.branch1.save()
         self.branch2 = Branch(restaurant=self.restaurant,
                               direction='Test direction 2')

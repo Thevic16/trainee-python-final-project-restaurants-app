@@ -50,6 +50,8 @@ class ItemOrder(models.Model):
     promotion = models.ForeignKey(
         Promotion, on_delete=models.CASCADE, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    item_type = models.ForeignKey(ItemType, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Item {self.id} from order {self.order.id}"
+
