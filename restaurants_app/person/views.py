@@ -81,6 +81,7 @@ class SocialAuthEmployeeView(GenericAPIView):
      the person with the employees role. Only the restaurant-administrators
       role has permission to access this resource.
     """
+
     def post(self, request):
         try:
             serializer = self.serializer_class(data=request.data)
@@ -123,9 +124,9 @@ class SocialAuthPortalManagerView(GenericAPIView):
     serializer_class = SocialAuthPortalManagerSerializer
     """
     An endpoint that allows using of the HTTP method post to retrieve the
-     token of the portal manager user (remember first run the command to 
-     generate the portal manager user). Everybody has permission to access
-      this resource, however you have to know the credentials to access it.
+    token of the portal manager user (remember first run the command to
+    generate the portal manager user). Everybody has permission to access
+    this resource, however you have to know the credentials to access it.
     """
 
     def post(self, request):
