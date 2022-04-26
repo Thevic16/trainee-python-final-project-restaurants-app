@@ -46,6 +46,11 @@ class ItemOrderView(generics.ListCreateAPIView):
 
 # Create your views here.
 class MenuDetail(ViewSet):
+    """
+    An endpoint that allows retrieving the menu information for a specific
+     branch with the HTTP method get, based on the id of the branch.
+     Everybody has permission to access this resource.
+    """
     def retrieve(self, request, pk=None):
         MapServices.request = request
         return Response(MapServices.get_menu_map_dict_by_branch(pk))
