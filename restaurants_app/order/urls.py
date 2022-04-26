@@ -15,4 +15,3 @@ urlpatterns = [
     path('menus/<int:pk>/', views.MenuDetail.as_view({'get': 'retrieve'}),
          name='menu-detail'),
 ]
-

@@ -11,7 +11,11 @@ class SocialAuthSerializer(serializers.Serializer):
         user_data = Provider.validate(auth_token)
         try:
             user_data['sub']
-        except:
+        except KeyError:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+        except TypeError:
             raise serializers.ValidationError(
                 'The token is invalid or expired. Please login again.'
             )
@@ -33,7 +37,11 @@ class SocialAuthClientSerializer(serializers.Serializer):
         user_data = Provider.validate(auth_token)
         try:
             user_data['sub']
-        except:
+        except KeyError:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+        except TypeError:
             raise serializers.ValidationError(
                 'The token is invalid or expired. Please login again.'
             )
@@ -48,8 +56,7 @@ class SocialAuthClientSerializer(serializers.Serializer):
             user_role='Client', restaurant_id=None, branch_id=None)
 
 
-class SocialAuthRestaurantAdministratorSerializer(
-    serializers.Serializer):
+class SocialAuthRestaurantAdministratorSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
     restaurant_id = serializers.IntegerField(allow_null=True)
 
@@ -58,7 +65,11 @@ class SocialAuthRestaurantAdministratorSerializer(
         user_data = Provider.validate(attrs.get('auth_token'))
         try:
             user_data['sub']
-        except:
+        except KeyError:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+        except TypeError:
             raise serializers.ValidationError(
                 'The token is invalid or expired. Please login again.'
             )
@@ -84,7 +95,11 @@ class SocialAuthEmployeeSerializer(serializers.Serializer):
         user_data = Provider.validate(attrs.get('auth_token'))
         try:
             user_data['sub']
-        except:
+        except KeyError:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+        except TypeError:
             raise serializers.ValidationError(
                 'The token is invalid or expired. Please login again.'
             )
@@ -110,7 +125,11 @@ class SocialAuthBranchManagerSerializer(serializers.Serializer):
         user_data = Provider.validate(attrs.get('auth_token'))
         try:
             user_data['sub']
-        except:
+        except KeyError:
+            raise serializers.ValidationError(
+                'The token is invalid or expired. Please login again.'
+            )
+        except TypeError:
             raise serializers.ValidationError(
                 'The token is invalid or expired. Please login again.'
             )

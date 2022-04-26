@@ -9,7 +9,7 @@ expire_delta = api_settings.JWT_REFRESH_EXPIRATION_DELTA
 
 class TokenServices:
     @staticmethod
-    def get_token(person: "Person"):  # instance of the model
+    def get_token(person):  # instance of the model
         payload = jwt_payload_handler(person)
         token = jwt_encode_handler(payload)
         return token

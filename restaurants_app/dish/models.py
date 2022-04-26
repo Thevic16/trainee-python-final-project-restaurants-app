@@ -37,8 +37,8 @@ def menu_category_model_pre_save_receiver(sender, instance, *args, **kwargs):
             restaurant__id=instance.restaurant.id).count(),
                               'name', 'restaurant')
 
-        Logger.info(f'Create inventory first time, will be necessary to'
-                    f' validate')
+        Logger.info('Create inventory first time, will be necessary to'
+                    ' validate')
 
 
 pre_save.connect(menu_category_model_pre_save_receiver, sender=MenuCategory)
@@ -80,8 +80,8 @@ def dish_model_pre_save_receiver(sender, instance, *args, **kwargs):
                       instance.menu_category.restaurant.id, "restaurant",
                       'menu_category')
 
-        Logger.info(f'Create dish first time, will be necessary to'
-                    f' validate')
+        Logger.info('Create dish first time, will be necessary to'
+                    ' validate')
 
 
 pre_save.connect(dish_model_pre_save_receiver, sender=Dish)

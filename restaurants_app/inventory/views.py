@@ -5,8 +5,7 @@ from inventory.serializers import (UnitSerializer, IngredientSerializer,
 from inventory.models import Unit, Ingredient, Recipe, Inventory
 from django.core.exceptions import ValidationError
 
-from person.permissions import ReadOnly, IsRestaurantAdministrator, \
-    IsBranchManager
+from person.permissions import IsRestaurantAdministrator, IsBranchManager
 from utilities.logger import Logger
 from rest_framework import generics, mixins
 

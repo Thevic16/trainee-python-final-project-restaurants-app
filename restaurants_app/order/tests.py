@@ -1,17 +1,18 @@
 import django
 
-django.setup()
+django.setup()  # If the setup is not executed here Django throws an error when
+# loading the models
 
-from django.test import TestCase
-from unittest.mock import patch, MagicMock
-from datetime import date
-
-from dish.models import MenuCategory, Dish, Promotion
-from inventory.models import Unit, Ingredient, Recipe, Inventory
-from order.map import MapServices
-from restaurant.models import Restaurant, FoodType, PayType, Branch, \
-    DeliveryType
-from utilities.logger import Logger
+# The django.setup() produce the E402
+from django.test import TestCase  # noqa: E402
+from unittest.mock import patch, MagicMock  # noqa: E402
+from datetime import date  # noqa: E402
+from dish.models import MenuCategory, Dish, Promotion  # noqa: E402
+from inventory.models import Unit, Ingredient, Recipe, Inventory  # noqa: E402
+from order.map import MapServices  # noqa: E402
+from restaurant.models import Restaurant, FoodType, PayType, \
+    Branch  # noqa: E402
+from utilities.logger import Logger  # noqa: E402
 
 
 def fake_today():
