@@ -1,3 +1,5 @@
+import os
+
 from rest_framework.reverse import reverse as api_reverse
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
@@ -17,5 +19,5 @@ def jwt_response_payload_handler(token, user=None, request=None):
         'token': token,
         'user': user.email,
         'expires': timezone.now() + expire_delta - datetime.timedelta(
-            seconds=200)
+            seconds=int(os.environ.get('EXPIRES_TIME_SECONDS')))
     }

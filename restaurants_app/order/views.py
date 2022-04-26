@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-
+from django.core.exceptions import ObjectDoesNotExist
 from order import serializer
 from order import services
 from order.map import MapServices
@@ -53,4 +53,7 @@ class MenuDetail(ViewSet):
     """
     def retrieve(self, request, pk=None):
         MapServices.request = request
-        return Response(MapServices.get_menu_map_dict_by_branch(pk))
+        try:
+            return Response(MapServices.get_menu_map_dict_by_branch(pk))
+        except ObjectDoesNotExist:
+            return Response('Id Branch no found!')

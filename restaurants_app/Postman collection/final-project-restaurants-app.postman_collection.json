@@ -81,7 +81,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXBsb3llZUBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE4Mzk1N30.-DrF8vc4ulDiKKkr8q8UMTRfFg98F1d-V_lpgc0m8W8",
+											"value": "{{token_portal_manager}}",
 											"type": "string"
 										}
 									]
@@ -90,7 +90,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"string\",\n  \"active\": true,\n  \"max_admins\": 0,\n  \"max_branches\": 0,\n  \"monthly_pay\": 0,\n  \"commission\": 0,\n  \"food_type\": 0,\n  \"pay_type\": 0\n}",
+									"raw": "{\n  \"name\": \"Restaurant 2\",\n  \"active\": true,\n  \"max_admins\": 1,\n  \"max_branches\": 1,\n  \"monthly_pay\": 5,\n  \"commission\": 5,\n  \"food_type\": 1,\n  \"pay_type\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -209,6 +209,16 @@
 						{
 							"name": "Get food-types",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_portal_manager}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -254,7 +264,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3NTYzOH0.xF4wOorQ8udnaMlIdR2ESrBu_0PbFmf-k4luSELCO20",
+											"value": "{{token_portal_manager}}",
 											"type": "string"
 										}
 									]
@@ -263,7 +273,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"food\": \"string\",\n  \"description\": \"string\"\n}",
+									"raw": "{\n  \"food\": \"Vegetariana\",\n  \"description\": \"description\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -347,6 +357,169 @@
 									"path": [
 										"api",
 										"food-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "pay-types",
+					"item": [
+						{
+							"name": "Get pay-types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-types/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get pay-types by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post pay-types",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"commission\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-types/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put pay-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3Mzc2MX0.KUbR4Md4q_KW5Qd624P1-4Q2kIrj8nf9zGE1X_DM9Vk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"food\": \"string\",\n  \"description\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete pay-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3NTYzOH0.xF4wOorQ8udnaMlIdR2ESrBu_0PbFmf-k4luSELCO20",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
 										"{{id}}"
 									]
 								},
@@ -607,7 +780,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMCwidXNlcm5hbWUiOiJwb3J0YWxtYW5hZ2VyQHJlc3RhdXJhbnRfYXBwLmNvbSIsImV4cCI6MTY1MDkyMTMyNSwiZW1haWwiOiJwb3J0YWxtYW5hZ2VyQHJlc3RhdXJhbnRfYXBwLmNvbSIsIm9yaWdfaWF0IjoxNjUwOTIxMDI1fQ.6L3OEwfjvd04KrSfMIRHise4m9QpZj7gfk6sb7iRcmw",
+											"value": "{{token_portal_manager}}",
 											"type": "string"
 										}
 									]
@@ -616,7 +789,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"auth_token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6ImQzMzJhYjU0NWNjMTg5ZGYxMzNlZmRkYjNhNmM0MDJlYmY0ODlhYzIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk5OTA0NTEzNTE5NTI2MjAzNzYiLCJlbWFpbCI6InZpY3Rvcmpob2FuQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiMUhmdHIzVk1rbVplZ1RGWVdId0ZiZyIsIm5hbWUiOiJWw61jdG9yIEfDs21leiIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHaHhhNFRxR3RqbUlWcE5TS0pXam85UTFOSVFrd05ibThramx2LS1BQUk9czk2LWMiLCJnaXZlbl9uYW1lIjoiVsOtY3RvciIsImZhbWlseV9uYW1lIjoiR8OzbWV6IiwibG9jYWxlIjoiZXMiLCJpYXQiOjE2NTA5MjEwOTMsImV4cCI6MTY1MDkyNDY5M30.Reg44WbJGEA-ftPcMlSDI-zplxrqJmFg6xkX_Vh7B-rVUCcE4t1jOjlmvhFgYCaO0lGCcfZgf0hElquGgGlbuMTPbxCWWe-63tNs2lCUyL8YWuugSn4aGi2jUmqjSPEhzYRWtSYuXhCT8yg7DWyenvhlu8jB3G2KfunA73i5s2b03OsZIz9lMZZex9-55mBjSq47d9R9rS3YpapcydLikemY3D4XXeZKzZ8a1Fz8vdlvD-h1OoYwlhED7VBXidE3uTh4KbuEEhc0zAAOEC1Pprl7SFWvG9zR1kN1ddm7x3smbERKc3NwlEXOo6-HCKRxD_0SZtADjqdiuaZelJzkgw\",\n  \"restaurant_id\": 1\n}",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\",\n  \"restaurant_id\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -672,11 +845,21 @@
 						{
 							"name": "Post branch-managers",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_restaurant_adm}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"auth_token\": \"string\",\n  \"branch_id\": 0\n}",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\",\n  \"branch_id\": 2\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -706,7 +889,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"auth_token\": \"{{token}}\"\n}",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -807,7 +990,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTAxNTY1M30.07E3677hGMGAINx1M8_sKYdof5YhlqkrwXsfjlJZUF8",
+											"value": "{{token_restaurant_adm}}",
 											"type": "string"
 										}
 									]
@@ -816,7 +999,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"string\",\n  \"restaurant\": 0\n}",
+									"raw": "{\n  \"name\": \"starter\",\n  \"restaurant\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -996,7 +1179,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJ2aWN0b3JqaG9hbkBnbWFpbC5jb20iLCJleHAiOjE2NTA5MTc2NzMsImVtYWlsIjoidmljdG9yamhvYW5AZ21haWwuY29tIiwib3JpZ19pYXQiOjE2NTA5MTczNzN9.OKy_-LP2ruzG_TnwQGo9GG9vGIzAZ25OLN99F66-zEE",
+											"value": "{{token_restaurant_adm}}",
 											"type": "string"
 										}
 									]
@@ -1159,7 +1342,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJ2aWN0b3JqaG9hbkBnbWFpbC5jb20iLCJleHAiOjE2NTA5MjE0NTgsImVtYWlsIjoidmljdG9yamhvYW5AZ21haWwuY29tIiwib3JpZ19pYXQiOjE2NTA5MjExNTh9.SeFGPcotJByjm_BmX5ffJGT8NCn9jGcCo3h9fpiayRU",
+											"value": "{{token_restaurant_adm}}",
 											"type": "string"
 										}
 									]
@@ -1168,7 +1351,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"Promotion 3\",\n  \"price\": 1000,\n  \"since_date\": \"2022-04-20\",\n  \"up_to\": \"2022-04-28\",\n  \"dishes\": [\n    1,2\n  ],\n  \"branches\": [\n    1\n  ],\n  \"restaurant\": 1\n}",
+									"raw": "{\n  \"name\": \"Promotion 3\",\n  \"price\": 1000,\n  \"since_date\": \"2022-04-20\",\n  \"up_to\": \"2022-04-28\",\n  \"dishes\": [\n    1,2,3\n  ],\n  \"branches\": [\n    2\n  ],\n  \"restaurant\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1505,7 +1688,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"string\",\n  \"unit\": 0\n}",
+									"raw": "{\n  \"name\": \"tomator\",\n  \"unit\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1801,7 +1984,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTAwNDM2Mn0.6EOnkVJLCbJMHVLBiir2YSI_mHg1hY_zUmZ5zKbxnic",
+											"value": "{{token_restaurant_adm}}",
 											"type": "string"
 										}
 									]
@@ -1810,7 +1993,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredient\": 0,\n  \"availability\": 0,\n  \"branch\": 0\n}",
+									"raw": "{\n  \"ingredient\": 1,\n  \"availability\": 10,\n  \"branch\": 2\n}",
 									"options": {
 										"raw": {
 											"language": "json"
