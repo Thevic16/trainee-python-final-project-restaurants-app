@@ -58,6 +58,23 @@ interact with the restaurant information. Only the portal manager role has permi
 to access these resources. <br />
 link: {{url}}/api/restaurants/ 
 
+An endpoint that use the HTTP methods get and post for interact with the branches
+information. For use the endpoint is needed the restaurant permission.
+<br />
+link: {{url}}/api/branches
+
+An endpoint that use the HTTP methods get, post, put and delete for interact with 
+the the pay day choose for a restaurant for a limit date to pay.
+<br />
+link: {{url}}/api/pay-days/{{url}})
+
+An endpoint that use the HTTP methods get and post for interact with the information
+of the payments. The post methods allows the restaurant administrator to pay a monthly
+and the get method shown the payments. The endpoint require the restaurant administrator
+permission.
+link: {{url}}/api/pay-monthly/
+<br />
+
 See folder Postman collection to see more details.
 
 # URLs API description for Person app.
@@ -154,5 +171,35 @@ with the HTTP method get, based on the id of the branch. Everybody has permissio
 to access this resource.
 <br />
 link: {{url}}/api/menus/{{id}}
+
+An endpoint that use the HTTP methods get and post to interact with
+the status types.
+<br />
+link: {{url}}/api/status/
+
+An endpoint that use the HTTP methods get and post to interact with the item
+types.
+<br />
+link: {{url}}/api/item-types/
+
+An enpoint that use the HTTP methods get and post to interact with the orders.
+The post method manage the creation of an order. The get method list all the orders.
+The endpoint needs client permission for used.
+<br />
+link: {{url}}/api/orders/
+
+An endpoint that use the HTTP method post for add items to and order.
+The endpoint needs client permissions for interact.
+<br />
+link: {{url}}/api/item-order/
+
+An endpoint that use the HTTP method post for send a order to restaurant for
+handle with them. When the endpoint is called the order change their status to
+preparing and reduce the inventory.
+<br />
+link: {{url}}/api/send-order/{{id}}
+
+The flow for send a new order is create and order, add the items and finally change
+the state of the order from "ordering" to "preparing"
 
 See folder Postman collection to see more details.
