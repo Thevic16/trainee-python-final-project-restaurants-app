@@ -1,0 +1,2405 @@
+{
+	"info": {
+		"_postman_id": "f9f01711-1811-434f-8e4f-fbcc15518761",
+		"name": "final-project-restaurants-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "docs",
+			"item": [
+				{
+					"name": "Get docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/docs/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"docs",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "restaurant app",
+			"item": [
+				{
+					"name": "restaurants",
+					"item": [
+						{
+							"name": "Get restaurants",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/restaurants/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"restaurants",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get restaurants By id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/restaurants/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"restaurants",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post restaurants",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Restaurant 2\",\n  \"active\": true,\n  \"max_admins\": 1,\n  \"max_branches\": 1,\n  \"monthly_pay\": 5,\n  \"commission\": 5,\n  \"food_type\": 1,\n  \"pay_type\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/restaurants/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"restaurants",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put restaurants",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXBsb3llZUBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE4Mzk1N30.-DrF8vc4ulDiKKkr8q8UMTRfFg98F1d-V_lpgc0m8W8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"string\",\n  \"active\": true,\n  \"max_admins\": 0,\n  \"max_branches\": 0,\n  \"monthly_pay\": 0,\n  \"commission\": 0,\n  \"food_type\": 0,\n  \"pay_type\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/restaurants/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"restaurants",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete restaurants",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTI3MjYyNn0.mv2BvNx4_9xI8WQAnb4yleFAiGjots7_gqX71_qkF0U",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/restaurants/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"restaurants",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "An endpoint that allows using the HTTP methods get, post, put, and delete to\ninteract with the restaurant model. Only the portal manager role has permission\nto access these resources.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "food-types",
+					"item": [
+						{
+							"name": "Get food-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_portal_manager}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/food-types/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"food-types",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get food-types by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/food-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"food-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post food-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_portal_manager}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"food\": \"Vegetariana\",\n  \"description\": \"description\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/food-types/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"food-types",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put food-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3Mzc2MX0.KUbR4Md4q_KW5Qd624P1-4Q2kIrj8nf9zGE1X_DM9Vk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"food\": \"string\",\n  \"description\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/food-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"food-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete food-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3NTYzOH0.xF4wOorQ8udnaMlIdR2ESrBu_0PbFmf-k4luSELCO20",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/food-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"food-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "pay-types",
+					"item": [
+						{
+							"name": "Get pay-types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-types/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get pay-types by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post pay-types",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"monthly\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-types/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put pay-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3Mzc2MX0.KUbR4Md4q_KW5Qd624P1-4Q2kIrj8nf9zGE1X_DM9Vk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"food\": \"string\",\n  \"description\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete pay-types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE3NTYzOH0.xF4wOorQ8udnaMlIdR2ESrBu_0PbFmf-k4luSELCO20",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-types/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-types",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "pay-days",
+					"item": [
+						{
+							"name": "Get pay-days",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-days/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-days",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get pay-days by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-days/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-days",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post pay-days",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE4NDE1MH0.kpwLjg_muLQDTYbmhS0a-Si70ZfTTf56eiY2YoiOT5Y",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"day\": 0,\n  \"restaurant\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-days/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-days",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put pay-days",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE4NDE1MH0.kpwLjg_muLQDTYbmhS0a-Si70ZfTTf56eiY2YoiOT5Y",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"day\": 0,\n  \"restaurant\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-days/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-days",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete pay-days",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE2NzkzN30.EbnRv2mz1UiPG4sAljRvl9fc9xqfnPe7kKZcDUAhIVY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-days/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-days",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pay-monthly",
+					"item": [
+						{
+							"name": "Get pay-monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/pay-monthly/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-monthly",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post pay-monthly",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurant\": 2,\n    \"month_payed\" : 3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/pay-monthly/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"pay-monthly",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "branches",
+					"item": [
+						{
+							"name": "Get branches",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/branches",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"branches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post branches",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"direction\": \"Cr 5 # 16-20\",\n    \"phone\": \"344521341\",\n    \"delivery_type\": [1],\n    \"restaurant\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/branches",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"branches"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "person app",
+			"item": [
+				{
+					"name": "person",
+					"item": [
+						{
+							"name": "Post portal-managers",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"portalmanager@restaurant_app.com\",\n  \"password\": \"{{portal_manager_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/persons/portal-managers/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"persons",
+										"portal-managers",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post clients",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/persons/clients/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"persons",
+										"clients",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post restaurant-administrators",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_portal_manager}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\",\n  \"restaurant_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/persons/restaurant-administrators/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"persons",
+										"restaurant-administrators",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post employees",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"auth_token\": \"string\",\n  \"branch_id\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/persons/employees/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"persons",
+										"employees",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post branch-managers",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_restaurant_adm}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\",\n  \"branch_id\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/persons/branch-managers/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"persons",
+										"branch-managers",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post auth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"auth_token\": \"{{token_social}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/persons/auth/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"persons",
+										"auth",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "dish app",
+			"item": [
+				{
+					"name": "menus-categories",
+					"item": [
+						{
+							"name": "Get menus-categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/menus-categories/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"menus-categories",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get menus-categories By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/menus-categories/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"menus-categories",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post menus-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_restaurant_adm}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"starter\",\n  \"restaurant\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/menus-categories/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"menus-categories",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put menus-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTMyMDcsIm5iZiI6MTY0ODUxMzIwNywianRpIjoiNGJlMjUwOTUtYTMyYy00MWE1LWJhYzctYjExMTAwYWM0YmVkIiwiZXhwIjoxNjQ4NTE0MTA3LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.eIuncxNcwZ6gPONb3XTpys6V-SPlHbtl-zeeZUxVuhQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"string\",\n  \"restaurant\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/menus-categories/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"menus-categories",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete menus-categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTMyMDcsIm5iZiI6MTY0ODUxMzIwNywianRpIjoiNGJlMjUwOTUtYTMyYy00MWE1LWJhYzctYjExMTAwYWM0YmVkIiwiZXhwIjoxNjQ4NTE0MTA3LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.eIuncxNcwZ6gPONb3XTpys6V-SPlHbtl-zeeZUxVuhQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/menus-categories/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"menus-categories",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "dishes",
+					"item": [
+						{
+							"name": "Get dishes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJ2aWN0b3JqaG9hbkBnbWFpbC5jb20iLCJleHAiOjE2NTA5MjE0NTgsImVtYWlsIjoidmljdG9yamhvYW5AZ21haWwuY29tIiwib3JpZ19pYXQiOjE2NTA5MjExNTh9.SeFGPcotJByjm_BmX5ffJGT8NCn9jGcCo3h9fpiayRU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MDkzMjUsIm5iZiI6MTY0ODUwOTMyNSwianRpIjoiNWIzOTQyZWEtNjEzNi00NjhkLThkZGEtNDYwNjQ1MzA5NGVhIiwiZXhwIjoxNjQ4NTEwMjI1LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.vwByJUXjxQtCu2lsqHAZnvbWeI_azl2poZ4eMm6q_6M",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/dishes/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"dishes",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get dishes by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTEwNTcwNX0.8hrsYqW30tKptTa9j69taGyUZDsrS0BwpY7ZN5a-xx0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MDkzMjUsIm5iZiI6MTY0ODUwOTMyNSwianRpIjoiNWIzOTQyZWEtNjEzNi00NjhkLThkZGEtNDYwNjQ1MzA5NGVhIiwiZXhwIjoxNjQ4NTEwMjI1LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.vwByJUXjxQtCu2lsqHAZnvbWeI_azl2poZ4eMm6q_6M",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/dishes/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"dishes",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post dishes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_restaurant_adm}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Dish 3\",\n  \"price\": 100,\n  \"description\": \"description\",\n  \"restaurant\": 1,\n  \"menu_category\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/dishes/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"dishes",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put dishes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJ2aWN0b3JqaG9hbkBnbWFpbC5jb20iLCJleHAiOjE2NTA5MTc2NzMsImVtYWlsIjoidmljdG9yamhvYW5AZ21haWwuY29tIiwib3JpZ19pYXQiOjE2NTA5MTczNzN9.OKy_-LP2ruzG_TnwQGo9GG9vGIzAZ25OLN99F66-zEE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Dish 1\",\n  \"price\": 99.99,\n  \"description\": \"description dish 3\",\n  \"restaurant\": 1,\n  \"menu_category\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/dishes/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"dishes",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete dishes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTEzMzEsIm5iZiI6MTY0ODUxMTMzMSwianRpIjoiNjNlYzU4OGMtZjQwNy00Y2I1LWJkODAtNGIxOTNmOGM3NWM0IiwiZXhwIjoxNjQ4NTEyMjMxLCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.8MrHbjmoN0FWJI1NQfdy9UNkY8mZF0cpBXbfQfVbfVE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/dishes/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"dishes",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "promotions",
+					"item": [
+						{
+							"name": "Get promotions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJ2aWN0b3JqaG9hbkBnbWFpbC5jb20iLCJleHAiOjE2NTA5MjE0NTgsImVtYWlsIjoidmljdG9yamhvYW5AZ21haWwuY29tIiwib3JpZ19pYXQiOjE2NTA5MjExNTh9.SeFGPcotJByjm_BmX5ffJGT8NCn9jGcCo3h9fpiayRU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/promotions/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"promotions",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get promotions by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/promotions/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"promotions",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post promotions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_restaurant_adm}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Promotion 3\",\n  \"price\": 1000,\n  \"since_date\": \"2022-04-20\",\n  \"up_to\": \"2022-04-28\",\n  \"dishes\": [\n    1,2,3\n  ],\n  \"branches\": [\n    2\n  ],\n  \"restaurant\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/promotions/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"promotions",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put promotions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJ2aWN0b3JqaG9hbkBnbWFpbC5jb20iLCJleHAiOjE2NTA5MTgyNDAsImVtYWlsIjoidmljdG9yamhvYW5AZ21haWwuY29tIiwib3JpZ19pYXQiOjE2NTA5MTc5NDB9.QZN3oYomLfVTFnkYJqcPMH6JRm1oUS_i_7Y5DX_o-bo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Promotion 2\",\n  \"price\": 0,\n  \"since_date\": \"2022-04-20\",\n  \"up_to\": \"2022-04-28\",\n  \"dishes\": [\n    1,2\n  ],\n  \"branches\": [\n    1\n  ],\n  \"restaurant\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/promotions/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"promotions",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete promotions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTM5NzMsIm5iZiI6MTY0ODUxMzk3MywianRpIjoiZTZmMjhhMmItYTgyZS00MTU0LThjODktZDk1MTIyM2MzYTM1IiwiZXhwIjoxNjQ4NTE0ODczLCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.2o4djHTgZH_rYz27J3eC_lNAQpi_FNQtfRWfIM5Ak7s",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/promotions/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"promotions",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "inventory app",
+			"item": [
+				{
+					"name": "units",
+					"item": [
+						{
+							"name": "Get units",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/units/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"units",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get units By id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/units/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"units",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post units",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"grams\",\n  \"abbreviation\": \"g\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/units/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"units",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put units",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXBsb3llZUBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTE4Mzk1N30.-DrF8vc4ulDiKKkr8q8UMTRfFg98F1d-V_lpgc0m8W8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"string\",\n  \"abbreviation\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/units/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"units",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete units",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTI3MjYyNn0.mv2BvNx4_9xI8WQAnb4yleFAiGjots7_gqX71_qkF0U",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/units/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"units",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "ingredients",
+					"item": [
+						{
+							"name": "Get ingredients",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/ingredients/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"ingredients",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get ingredients By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/ingredients/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"ingredients",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post ingredients",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0OTAwNDM2Mn0.6EOnkVJLCbJMHVLBiir2YSI_mHg1hY_zUmZ5zKbxnic",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"tomator\",\n  \"unit\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/ingredients/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"ingredients",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put ingredients",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTI1NjksIm5iZiI6MTY0ODUxMjU2OSwianRpIjoiYjQ3ODg3NzEtYjA1Ny00YTVlLWFkMmQtNmYwMDVlMjUwOGI2IiwiZXhwIjoxNjQ4NTEzNDY5LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.S__E3qAk0kEd7X-X7R9sppPObuYaMmhcbdWKCpI7VOc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"string\",\n  \"unit\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/ingredients/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"ingredients",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete ingredients",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTI1NjksIm5iZiI6MTY0ODUxMjU2OSwianRpIjoiYjQ3ODg3NzEtYjA1Ny00YTVlLWFkMmQtNmYwMDVlMjUwOGI2IiwiZXhwIjoxNjQ4NTEzNDY5LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.S__E3qAk0kEd7X-X7R9sppPObuYaMmhcbdWKCpI7VOc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/ingredients/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"ingredients",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "recipes",
+					"item": [
+						{
+							"name": "Get recipes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/recipes/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"recipes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get recipes By id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/recipes/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"recipes",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post recipes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBmaWxtcmVudGFsc3lzdGVtLmNvbSIsImV4cCI6MTY0ODg1ODg2Nn0.qVQpqS5L-QeszI4F79PK74EM629xs_O_cOUtKgLMEug",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ingredient\": 0,\n  \"quantity\": 0,\n  \"dish\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/recipes/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"recipes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put recipes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTM5NzMsIm5iZiI6MTY0ODUxMzk3MywianRpIjoiZTZmMjhhMmItYTgyZS00MTU0LThjODktZDk1MTIyM2MzYTM1IiwiZXhwIjoxNjQ4NTE0ODczLCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.2o4djHTgZH_rYz27J3eC_lNAQpi_FNQtfRWfIM5Ak7s",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ingredient\": 0,\n  \"quantity\": 0,\n  \"dish\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/recipes/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"recipes",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete recipes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTM5NzMsIm5iZiI6MTY0ODUxMzk3MywianRpIjoiZTZmMjhhMmItYTgyZS00MTU0LThjODktZDk1MTIyM2MzYTM1IiwiZXhwIjoxNjQ4NTE0ODczLCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.2o4djHTgZH_rYz27J3eC_lNAQpi_FNQtfRWfIM5Ak7s",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/recipes/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"recipes",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "inventories",
+					"item": [
+						{
+							"name": "Get inventories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/inventories/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"inventories",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get inventories By id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/inventories/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"inventories",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post inventories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_restaurant_adm}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ingredient\": 1,\n  \"availability\": 10,\n  \"branch\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/inventories/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"inventories",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Put inventories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTI1NjksIm5iZiI6MTY0ODUxMjU2OSwianRpIjoiYjQ3ODg3NzEtYjA1Ny00YTVlLWFkMmQtNmYwMDVlMjUwOGI2IiwiZXhwIjoxNjQ4NTEzNDY5LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.S__E3qAk0kEd7X-X7R9sppPObuYaMmhcbdWKCpI7VOc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ingredient\": 0,\n  \"availability\": 0,\n  \"branch\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/inventories/{{id}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"inventories",
+										"{{id}}",
+										""
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete inventories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDg1MTI1NjksIm5iZiI6MTY0ODUxMjU2OSwianRpIjoiYjQ3ODg3NzEtYjA1Ny00YTVlLWFkMmQtNmYwMDVlMjUwOGI2IiwiZXhwIjoxNjQ4NTEzNDY5LCJpZGVudGl0eSI6MSwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJpc19hZG1pbiI6dHJ1ZSwiaXNfZW1wbG95ZWUiOnRydWV9fQ.S__E3qAk0kEd7X-X7R9sppPObuYaMmhcbdWKCpI7VOc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/inventories/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"inventories",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "order app",
+			"item": [
+				{
+					"name": "menus",
+					"item": [
+						{
+							"name": "Get menus",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/menus/{{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"menus",
+										"{{id}}"
+									]
+								},
+								"description": "Sixth Week Assignment. \n"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "orders",
+					"item": [
+						{
+							"name": "Post orders",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"branch\": null,\n    \"delivery_type\": null,\n    \"direction\": \"\",\n    \"client\": null\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/orders/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get orders",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/api/orders/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post item-order",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"quantity\": null,\n    \"dish\": null,\n    \"promotion\": null,\n    \"order\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/item-order/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"item-order",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post send order",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/send-order/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"send-order",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post update-order",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/update-order/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"update-order",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8000"
+		}
+	]
+}

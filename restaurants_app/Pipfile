@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==3.2"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+psycopg2-binary = "*"
+djangorestframework-simplejwt = "*"
+gunicorn = "*"
+django-environ = "*"
+whitenoise = "*"
+django-storages = "*"
+pillow = "*"
+boto3 = "*"
+django-rest-swagger = "*"
+google-api-core = "*"
+djangorestframework-jwt = "*"
+dj-database-url = "*"
+
+[dev-packages]
+flake8 = "*"
+autopep8 = "*"
+coverage = "*"
+
+[requires]
+python_version = "3.10"

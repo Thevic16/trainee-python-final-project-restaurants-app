@@ -1,0 +1,11 @@
+__pycache__
+.vscode/*
+.env
+.idea
+*/migrations/*
+mysite.log
+api_design.json
+prueba.py
+.coverage
+htmlcov/
+
