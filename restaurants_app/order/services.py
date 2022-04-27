@@ -6,6 +6,7 @@ from order.models import ItemOrder
 from restaurant.models import Branch
 from restaurant.services import PayServices
 
+
 class OrderServices:
 
     @staticmethod
